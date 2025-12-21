@@ -1,7 +1,7 @@
 /**
  * Mock WebSocket Implementation
- * Simulates WebSocket with 1ms update intervals for real-time price updates
- * Fixed: Creates new objects instead of mutating read-only properties
+ * Simulates WebSocket with real-time updates
+ * FIXED: Deep cloning to avoid read-only property errors
  */
 
 import type { TokenUpdate, MockWebSocketOptions } from "@/types";
@@ -23,8 +23,8 @@ export class MockWebSocket {
   private tokens = generateMockTokens(30);
 
   constructor(options: MockWebSocketOptions = {}) {
-    this.updateInterval = options.updateInterval ?? 1; // 1ms default
-    this.priceVolatility = options.priceVolatility ?? 0.01; // 1% default
+    this.updateInterval = options.updateInterval ?? 100; // 100ms default for visibility
+    this.priceVolatility = options.priceVolatility ?? 0.02; // 2% default
     this.maxPriceChange = options.maxPriceChange ?? 0.05; // 5% max default
   }
 
@@ -58,7 +58,13 @@ export class MockWebSocket {
   }
 
   getInitialTokens() {
-    return this.tokens;
+    // Return deep clones to avoid mutation issues
+    return this.tokens.map((token) => ({
+      ...token,
+      metrics: { ...token.metrics },
+      socials: { ...token.socials },
+      indicators: token.indicators.map((ind) => ({ ...ind })),
+    }));
   }
 
   private startUpdates(): void {
@@ -67,84 +73,76 @@ export class MockWebSocket {
     this.intervalId = setInterval(() => {
       if (!this.connected) return;
 
-      // Pick a random token to update
-      const randomToken =
-        this.tokens[Math.floor(Math.random() * this.tokens.length)];
+      // Pick 3-5 random tokens to update simultaneously for more visible changes
+      const numUpdates = Math.floor(Math.random() * 3) + 3;
 
-      // Randomly select which metric to update
-      const updateType = Math.random();
+      for (let i = 0; i < numUpdates; i++) {
+        const randomToken =
+          this.tokens[Math.floor(Math.random() * this.tokens.length)];
 
-      let update: TokenUpdate;
+        // Randomly select which metric to update
+        const updateType = Math.random();
 
-      if (updateType < 0.4) {
-        // Update price (40% chance)
-        const priceChange = (Math.random() - 0.5) * 2 * this.maxPriceChange;
-        const newPrice = randomToken.currentPrice * (1 + priceChange);
+        let update: TokenUpdate;
 
-        update = {
-          id: randomToken.id,
-          field: "currentPrice",
-          value: Math.max(0.0001, newPrice),
-          timestamp: Date.now(),
-        };
+        if (updateType < 0.4) {
+          // Update market cap (40% chance) - more dramatic changes
+          const change = (Math.random() - 0.5) * 2 * this.priceVolatility * 2; // Double volatility for visibility
+          const newValue = randomToken.metrics.marketCap * (1 + change);
 
-        // Create new object instead of mutating
-        randomToken.previousPrice = randomToken.currentPrice;
-        randomToken.currentPrice = update.value;
-      } else if (updateType < 0.6) {
-        // Update market cap (20% chance)
-        const change = (Math.random() - 0.5) * 2 * this.priceVolatility;
-        const newValue = randomToken.metrics.marketCap * (1 + change);
+          update = {
+            id: randomToken.id,
+            field: "marketCap",
+            value: Math.max(1000, newValue),
+            timestamp: Date.now(),
+          };
 
-        update = {
-          id: randomToken.id,
-          field: "marketCap",
-          value: Math.max(1000, newValue),
-          timestamp: Date.now(),
-        };
+          // Update local copy for next iteration
+          randomToken.metrics.marketCap = update.value;
+        } else if (updateType < 0.7) {
+          // Update volume (30% chance)
+          const change = (Math.random() - 0.5) * 2 * this.priceVolatility * 2;
+          const newValue = randomToken.metrics.volume24h * (1 + change);
 
-        // Create new metrics object instead of mutating
-        randomToken.metrics = {
-          ...randomToken.metrics,
-          marketCap: update.value,
-        };
-      } else if (updateType < 0.8) {
-        // Update volume (20% chance)
-        const change = (Math.random() - 0.5) * 2 * this.priceVolatility;
-        const newValue = randomToken.metrics.volume24h * (1 + change);
+          update = {
+            id: randomToken.id,
+            field: "volume24h",
+            value: Math.max(100, newValue),
+            timestamp: Date.now(),
+          };
 
-        update = {
-          id: randomToken.id,
-          field: "volume24h",
-          value: Math.max(100, newValue),
-          timestamp: Date.now(),
-        };
+          randomToken.metrics.volume24h = update.value;
+        } else if (updateType < 0.9) {
+          // Update funding (20% chance)
+          const change = (Math.random() - 0.5) * 2 * this.priceVolatility;
+          const newValue = randomToken.metrics.funding * (1 + change);
 
-        // Create new metrics object instead of mutating
-        randomToken.metrics = {
-          ...randomToken.metrics,
-          volume24h: update.value,
-        };
-      } else {
-        // Update funding (20% chance)
-        const change = (Math.random() - 0.5) * 2 * this.priceVolatility;
-        const newValue = randomToken.metrics.funding * (1 + change);
+          update = {
+            id: randomToken.id,
+            field: "funding",
+            value: Math.max(100, newValue),
+            timestamp: Date.now(),
+          };
 
-        update = {
-          id: randomToken.id,
-          field: "funding",
-          value: Math.max(100, newValue),
-          timestamp: Date.now(),
-        };
+          randomToken.metrics.funding = update.value;
+        } else {
+          // Update price (10% chance)
+          const priceChange = (Math.random() - 0.5) * 2 * this.maxPriceChange;
+          const newPrice = randomToken.currentPrice * (1 + priceChange);
 
-        // Create new metrics object instead of mutating
-        randomToken.metrics = {
-          ...randomToken.metrics,
-          funding: update.value,
-        };
+          update = {
+            id: randomToken.id,
+            field: "currentPrice",
+            value: Math.max(0.0001, newPrice),
+            timestamp: Date.now(),
+          };
+
+          randomToken.previousPrice = randomToken.currentPrice;
+          randomToken.currentPrice = update.value;
+        }
+
+        this.notifyMessage(update);
       }
-
-      this.notifyMessage(update);
     }, this.updateInterval);
   }
 

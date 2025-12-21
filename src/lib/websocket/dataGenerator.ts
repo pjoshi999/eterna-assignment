@@ -1,135 +1,159 @@
 /**
- * Mock Token Data Generator
- * Generates realistic token data for testing
+ * Data Generator for Mock Tokens
+ * Generates realistic token data with better images
  */
 
-import type { Token, TokenIndicator } from "@/types";
+import type { Token, TokenIndicator, ColumnType } from "@/types";
 
-const TOKEN_NAMES = [
-  { name: "BONK", fullName: "Bonk Inu" },
-  { name: "PEPE", fullName: "Pepe Coin" },
-  { name: "WIF", fullName: "Dogwifhat" },
-  { name: "POPCAT", fullName: "Popcat Coin" },
-  { name: "MEW", fullName: "Cat in a Dogs World" },
-  { name: "FARTCOIN", fullName: "Fart Coin" },
-  { name: "GIGA", fullName: "Giga Chad" },
-  { name: "MANEKI", fullName: "Maneki Neko" },
-  { name: "RETARDIO", fullName: "Retardio" },
-  { name: "MICHI", fullName: "Michi" },
+const tokenNames = [
+  "POPCAT",
+  "BONK",
+  "WIF",
+  "SAMO",
+  "MYRO",
+  "FARTCOIN",
+  "SILLY",
+  "MANEKI",
+  "MICHI",
+  "MEW",
+  "GUMMY",
+  "TOSHI",
+  "DUKO",
+  "PONKE",
+  "MOODENG",
+  "PENG",
+  "SLERF",
+  "BOME",
+  "HOBBES",
+  "MUMU",
+  "GOAT",
+  "ZEUS",
+  "ACT",
+  "WEN",
+  "MOTHER",
+  "DADDY",
+  "RETARDIO",
+  "GIGA",
+  "MICHI",
+  "RATS",
 ];
 
-const INDICATOR_TYPES: TokenIndicator[] = [
-  {
-    type: "bonding",
-    label: "Bonding",
-    percentage: 85,
-    tooltip: "Token bonding curve progress",
-  },
-  {
-    type: "liquidity",
-    label: "LP",
-    percentage: 92,
-    tooltip: "Liquidity pool status",
-  },
-  {
-    type: "holders",
-    label: "Holders",
-    percentage: 78,
-    tooltip: "Holder distribution score",
-  },
-  {
-    type: "market",
-    label: "Market",
-    percentage: 88,
-    tooltip: "Market health indicator",
-  },
-  {
-    type: "security",
-    label: "Security",
-    percentage: 95,
-    tooltip: "Contract security score",
-  },
+const fullNames = [
+  "Popcat Coin",
+  "Bonk Token",
+  "Dogwifhat",
+  "Samoyedcoin",
+  "Myro Token",
+  "Fartcoin",
+  "Silly Dragon",
+  "Maneki Neko",
+  "Michi Token",
+  "Cat in a dogs world",
+  "Gummy Bear",
+  "Toshi Token",
+  "Duko Token",
+  "Ponke Meme",
+  "Moo Deng",
+  "Peng Coin",
+  "Slerf Token",
+  "BOOK OF MEME",
+  "Hobbes Token",
+  "Mumu Token",
+  "Goatseus Maximus",
+  "Zeus Network",
+  "Act I",
+  "Wen Token",
+  "Mother Iggy",
+  "Daddy Tate",
+  "Retardio",
+  "Giga Chad",
+  "Michi Cat",
+  "Rats on Solana",
 ];
-
-function generateAddress(): string {
-  const chars = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-  let address = "";
-  for (let i = 0; i < 44; i++) {
-    address += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return address;
-}
 
 function randomBetween(min: number, max: number): number {
   return Math.random() * (max - min) + min;
 }
 
-export function generateMockToken(
-  id: string,
-  column: "new" | "final" | "migrated"
-): Token {
-  const tokenData = TOKEN_NAMES[Math.floor(Math.random() * TOKEN_NAMES.length)];
-  const basePrice = randomBetween(0.0001, 10);
-
-  return {
-    id,
-    address: generateAddress(),
-    name: tokenData.name,
-    fullName: tokenData.fullName,
-    imageUrl: `https://api.dicebear.com/7.x/shapes/svg?seed=${id}`,
-    column,
-    createdAt: Date.now() - Math.floor(Math.random() * 3600000), // Within last hour
-    lastUpdate: Date.now(),
-    socials: {
-      twitter:
-        Math.random() > 0.3
-          ? `https://twitter.com/${tokenData.name.toLowerCase()}`
-          : undefined,
-      website:
-        Math.random() > 0.5
-          ? `https://${tokenData.name.toLowerCase()}.com`
-          : undefined,
-      telegram:
-        Math.random() > 0.6
-          ? `https://t.me/${tokenData.name.toLowerCase()}`
-          : undefined,
-      pumpfun:
-        Math.random() > 0.2
-          ? `https://pump.fun/coin/${generateAddress()}`
-          : undefined,
+function generateIndicators(): TokenIndicator[] {
+  return [
+    {
+      label: "Top 10 Holders",
+      percentage: Math.floor(randomBetween(60, 95)),
+      color: Math.random() > 0.5 ? "red" : "green",
     },
-    indicators: INDICATOR_TYPES.map((ind) => ({
-      ...ind,
-      percentage: Math.floor(randomBetween(60, 99)),
-    })),
-    metrics: {
-      marketCap: randomBetween(100000, 50000000),
-      volume24h: randomBetween(50000, 10000000),
-      funding: randomBetween(10000, 1000000),
-      priceChange24h: randomBetween(-20, 50),
-      holders: Math.floor(randomBetween(100, 50000)),
-      liquidity: randomBetween(50000, 5000000),
+    {
+      label: "LP Burned",
+      percentage: Math.floor(randomBetween(0, 100)),
+      color: Math.random() > 0.3 ? "green" : "red",
     },
-    currentPrice: basePrice,
-    previousPrice: basePrice,
-    mentions: Math.floor(randomBetween(10, 1000)),
-    trending: Math.random() > 0.7,
-  };
+    {
+      label: "Mint Disabled",
+      percentage: Math.floor(randomBetween(0, 100)),
+      color: Math.random() > 0.5 ? "green" : "red",
+    },
+    {
+      label: "Freeze Disabled",
+      percentage: Math.floor(randomBetween(0, 100)),
+      color: Math.random() > 0.6 ? "green" : "red",
+    },
+    {
+      label: "Ownership Renounced",
+      percentage: Math.floor(randomBetween(0, 100)),
+      color: Math.random() > 0.4 ? "green" : "red",
+    },
+  ];
 }
 
-export function generateMockTokens(count: number = 30): Token[] {
+export function generateMockTokens(count: number): Token[] {
   const tokens: Token[] = [];
-  const perColumn = Math.floor(count / 3);
+  const columns: ColumnType[] = ["new", "final", "migrated"];
 
-  // Generate tokens for each column
-  for (let i = 0; i < perColumn; i++) {
-    tokens.push(generateMockToken(`new-${i}`, "new"));
-  }
-  for (let i = 0; i < perColumn; i++) {
-    tokens.push(generateMockToken(`final-${i}`, "final"));
-  }
-  for (let i = 0; i < count - perColumn * 2; i++) {
-    tokens.push(generateMockToken(`migrated-${i}`, "migrated"));
+  for (let i = 0; i < count; i++) {
+    const name = tokenNames[i % tokenNames.length];
+    const fullName = fullNames[i % fullNames.length];
+    const column = columns[i % 3];
+
+    // Use placeholder images with unique seeds
+    const imageUrl = `https://api.multiavatar.com/${name}-${i}.png`;
+
+    const currentPrice = randomBetween(0.0001, 10);
+
+    tokens.push({
+      id: `${column}-${i}`,
+      name,
+      fullName,
+      address: `${Math.random().toString(36).substring(2, 15)}${Math.random()
+        .toString(36)
+        .substring(2, 15)}`,
+      imageUrl,
+      column,
+      currentPrice,
+      previousPrice: currentPrice,
+      metrics: {
+        marketCap: randomBetween(10000, 100000000),
+        volume24h: randomBetween(1000, 10000000),
+        priceChange24h: randomBetween(-50, 200),
+        holders: Math.floor(randomBetween(100, 50000)),
+        liquidity: randomBetween(5000, 5000000),
+        funding: randomBetween(1000, 10000),
+      },
+      socials: {
+        twitter:
+          Math.random() > 0.3
+            ? `https://twitter.com/${name.toLowerCase()}`
+            : undefined,
+        website:
+          Math.random() > 0.5 ? `https://${name.toLowerCase()}.com` : undefined,
+        telegram:
+          Math.random() > 0.4
+            ? `https://t.me/${name.toLowerCase()}`
+            : undefined,
+      },
+      indicators: generateIndicators(),
+      trending: Math.random() > 0.7,
+      lastUpdate: Date.now() - Math.floor(randomBetween(0, 3600000)),
+    });
   }
 
   return tokens;
