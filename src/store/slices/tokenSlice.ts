@@ -1,6 +1,7 @@
 /**
  * Token Slice
  * Redux slice for managing token data and operations
+ * Fixed: Proper immutable updates and auto-sorting
  */
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
@@ -30,6 +31,18 @@ const initialState: TokenState = {
   },
 };
 
+// Helper function to sort tokens by market cap
+const sortTokensByMarketCap = (
+  tokenIds: string[],
+  tokens: Record<string, Token>
+): string[] => {
+  return [...tokenIds].sort((a, b) => {
+    const tokenA = tokens[a];
+    const tokenB = tokens[b];
+    return (tokenB?.metrics.marketCap || 0) - (tokenA?.metrics.marketCap || 0);
+  });
+};
+
 const tokenSlice = createSlice({
   name: "token",
   initialState,
@@ -57,6 +70,14 @@ const tokenSlice = createSlice({
             break;
         }
       });
+
+      // Sort all columns by market cap
+      state.newPairs = sortTokensByMarketCap(state.newPairs, state.tokens);
+      state.finalStretch = sortTokensByMarketCap(
+        state.finalStretch,
+        state.tokens
+      );
+      state.migrated = sortTokensByMarketCap(state.migrated, state.tokens);
     },
 
     // Add a new token
@@ -68,33 +89,64 @@ const tokenSlice = createSlice({
       switch (token.column) {
         case "new":
           state.newPairs.unshift(token.id);
+          state.newPairs = sortTokensByMarketCap(state.newPairs, state.tokens);
           break;
         case "final":
           state.finalStretch.unshift(token.id);
+          state.finalStretch = sortTokensByMarketCap(
+            state.finalStretch,
+            state.tokens
+          );
           break;
         case "migrated":
           state.migrated.unshift(token.id);
+          state.migrated = sortTokensByMarketCap(state.migrated, state.tokens);
           break;
       }
     },
 
-    // Update token data (for WebSocket updates)
+    // Update token data (for WebSocket updates) - FIXED VERSION
     updateToken: (state, action: PayloadAction<TokenUpdate>) => {
       const { id, field, value } = action.payload;
       const token = state.tokens[id];
 
       if (!token) return;
 
+      // Create new token object to ensure immutability
+      const updatedToken: Token = { ...token };
+
       // Store previous price for flash animation
       if (field === "currentPrice") {
-        token.previousPrice = token.currentPrice;
-        token.currentPrice = value;
+        updatedToken.previousPrice = updatedToken.currentPrice;
+        updatedToken.currentPrice = value;
       } else {
-        // Update metrics
-        (token.metrics as Record<string, number>)[field] = value;
+        // Update metrics - create new metrics object
+        updatedToken.metrics = {
+          ...updatedToken.metrics,
+          [field]: value,
+        };
       }
 
-      token.lastUpdate = Date.now();
+      updatedToken.lastUpdate = Date.now();
+
+      // Update the token in state
+      state.tokens[id] = updatedToken;
+
+      // Re-sort the appropriate column for dynamic reordering
+      switch (token.column) {
+        case "new":
+          state.newPairs = sortTokensByMarketCap(state.newPairs, state.tokens);
+          break;
+        case "final":
+          state.finalStretch = sortTokensByMarketCap(
+            state.finalStretch,
+            state.tokens
+          );
+          break;
+        case "migrated":
+          state.migrated = sortTokensByMarketCap(state.migrated, state.tokens);
+          break;
+      }
     },
 
     // Batch update tokens
@@ -105,15 +157,30 @@ const tokenSlice = createSlice({
 
         if (!token) return;
 
+        // Create new token object
+        const updatedToken: Token = { ...token };
+
         if (field === "currentPrice") {
-          token.previousPrice = token.currentPrice;
-          token.currentPrice = value;
+          updatedToken.previousPrice = updatedToken.currentPrice;
+          updatedToken.currentPrice = value;
         } else {
-          (token.metrics as Record<string, number>)[field] = value;
+          updatedToken.metrics = {
+            ...updatedToken.metrics,
+            [field]: value,
+          };
         }
 
-        token.lastUpdate = Date.now();
+        updatedToken.lastUpdate = Date.now();
+        state.tokens[id] = updatedToken;
       });
+
+      // Re-sort all columns after batch update
+      state.newPairs = sortTokensByMarketCap(state.newPairs, state.tokens);
+      state.finalStretch = sortTokensByMarketCap(
+        state.finalStretch,
+        state.tokens
+      );
+      state.migrated = sortTokensByMarketCap(state.migrated, state.tokens);
     },
 
     // Set sort configuration
