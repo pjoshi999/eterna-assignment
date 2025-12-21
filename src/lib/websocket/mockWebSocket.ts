@@ -1,6 +1,7 @@
 /**
  * Mock WebSocket Implementation
  * Simulates WebSocket with 1ms update intervals for real-time price updates
+ * Fixed: Creates new objects instead of mutating read-only properties
  */
 
 import type { TokenUpdate, MockWebSocketOptions } from "@/types";
@@ -83,10 +84,12 @@ export class MockWebSocket {
         update = {
           id: randomToken.id,
           field: "currentPrice",
-          value: Math.max(0.0001, newPrice), // Ensure price doesn't go negative
+          value: Math.max(0.0001, newPrice),
           timestamp: Date.now(),
         };
 
+        // Create new object instead of mutating
+        randomToken.previousPrice = randomToken.currentPrice;
         randomToken.currentPrice = update.value;
       } else if (updateType < 0.6) {
         // Update market cap (20% chance)
@@ -100,7 +103,11 @@ export class MockWebSocket {
           timestamp: Date.now(),
         };
 
-        randomToken.metrics.marketCap = update.value;
+        // Create new metrics object instead of mutating
+        randomToken.metrics = {
+          ...randomToken.metrics,
+          marketCap: update.value,
+        };
       } else if (updateType < 0.8) {
         // Update volume (20% chance)
         const change = (Math.random() - 0.5) * 2 * this.priceVolatility;
@@ -113,7 +120,11 @@ export class MockWebSocket {
           timestamp: Date.now(),
         };
 
-        randomToken.metrics.volume24h = update.value;
+        // Create new metrics object instead of mutating
+        randomToken.metrics = {
+          ...randomToken.metrics,
+          volume24h: update.value,
+        };
       } else {
         // Update funding (20% chance)
         const change = (Math.random() - 0.5) * 2 * this.priceVolatility;
@@ -126,7 +137,11 @@ export class MockWebSocket {
           timestamp: Date.now(),
         };
 
-        randomToken.metrics.funding = update.value;
+        // Create new metrics object instead of mutating
+        randomToken.metrics = {
+          ...randomToken.metrics,
+          funding: update.value,
+        };
       }
 
       this.notifyMessage(update);
