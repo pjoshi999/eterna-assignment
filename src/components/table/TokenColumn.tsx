@@ -10,7 +10,7 @@ import { useAppSelector } from "@/store/hooks";
 import type { ColumnType } from "@/types";
 import { TokenRow } from "./TokenRow";
 import { Skeleton } from "../ui/skeleton";
-import { Menu, Plus } from "lucide-react";
+import { Menu } from "lucide-react";
 
 interface TokenColumnProps {
   column: ColumnType;
@@ -42,15 +42,11 @@ export const TokenColumn = memo(function TokenColumn({
   );
 
   return (
-    <div className="flex flex-col h-full bg-[#06070b] overflow-hidden border-r border-[#1a1b1f] last:border-r-0">
+    <div className="flex flex-col h-full bg-[#101114] overflow-hidden border-r border-[#1a1b1f] last:border-r-0">
       {/* Header - Exact Axiom Style */}
-      <div className="flex items-center justify-between px-3 py-2.5 border-b border-[#1a1b1f] bg-[#0a0b0f]">
+      <div className="flex items-center justify-between px-3 py-2.5 border-b border-[#1a1b1f] bg-[#101114]">
         <div className="flex items-center gap-3">
           <h2 className="text-[15px] font-medium text-white">{title}</h2>
-          <div className="flex items-center gap-0.5 text-[#6b7280]">
-            <Plus className="w-3.5 h-3.5" />
-            <span className="text-xs">0</span>
-          </div>
         </div>
 
         <div className="flex items-center gap-1.5">

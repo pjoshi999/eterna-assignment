@@ -62,8 +62,16 @@ export function formatTimeAgo(timestamp: number): string {
  * Shorten wallet address (e.g., "1A2B...XY9Z")
  */
 export function shortenAddress(address: string, chars: number = 4): string {
-  if (address.length <= chars * 2) return address;
+  if (address.length <= chars) return address;
   return `${address.slice(0, chars)}...${address.slice(-chars)}`;
+}
+
+/**
+ * Shorten string
+ */
+export function shortenString(string: string, chars: number = 4): string {
+  if (string.length <= chars * 2) return string;
+  return `${string.slice(0, chars)}...`;
 }
 
 /**

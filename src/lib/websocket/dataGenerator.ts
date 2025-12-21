@@ -20,7 +20,6 @@ const tokenNames = [
   "TOSHI",
   "DUKO",
   "PONKE",
-  "MOODENG",
   "PENG",
   "SLERF",
   "BOME",
@@ -53,7 +52,6 @@ const fullNames = [
   "Toshi",
   "Duko",
   "Ponke",
-  "Moo Deng",
   "Peng",
   "Slerf",
   "BOME",
@@ -78,29 +76,34 @@ function randomBetween(min: number, max: number): number {
 function generateIndicators(): TokenIndicator[] {
   return [
     {
+      type: "holders",
       label: "Top 10 Holders",
       percentage: Math.floor(randomBetween(0, 100)),
-      color: Math.random() > 0.5 ? "red" : "green",
+      tooltip: "Percentage of supply held by top 10 wallets",
     },
     {
+      type: "liquidity",
       label: "LP Burned",
       percentage: Math.floor(randomBetween(0, 100)),
-      color: Math.random() > 0.3 ? "green" : "red",
+      tooltip: "Percentage of liquidity pool tokens burned",
     },
     {
+      type: "security",
       label: "Mint Disabled",
       percentage: Math.floor(randomBetween(0, 100)),
-      color: Math.random() > 0.5 ? "green" : "red",
+      tooltip: "Token mint authority has been disabled",
     },
     {
+      type: "security",
       label: "Freeze Disabled",
       percentage: Math.floor(randomBetween(0, 100)),
-      color: Math.random() > 0.6 ? "green" : "red",
+      tooltip: "Token freeze authority has been disabled",
     },
     {
+      type: "security",
       label: "Ownership Renounced",
       percentage: Math.floor(randomBetween(0, 100)),
-      color: Math.random() > 0.4 ? "green" : "red",
+      tooltip: "Contract ownership has been renounced",
     },
   ];
 }
@@ -120,6 +123,7 @@ export function generateMockTokens(count: number): Token[] {
     )}&background=random&size=140&bold=true`;
 
     const currentPrice = randomBetween(0.0001, 10);
+    const now = Date.now();
 
     tokens.push({
       id: `${column}-${i}`,
@@ -132,6 +136,9 @@ export function generateMockTokens(count: number): Token[] {
       column,
       currentPrice,
       previousPrice: currentPrice,
+      createdAt:
+        now - Math.floor(randomBetween(3600000 * 24, 3600000 * 24 * 30)), // 1-30 days ago
+      lastUpdate: now - Math.floor(randomBetween(0, 3600000)),
       metrics: {
         marketCap: randomBetween(10000, 100000000),
         volume24h: randomBetween(100, 10000000),
@@ -154,7 +161,6 @@ export function generateMockTokens(count: number): Token[] {
       },
       indicators: generateIndicators(),
       trending: Math.random() > 0.7,
-      lastUpdate: Date.now() - Math.floor(randomBetween(0, 3600000)),
     });
   }
 

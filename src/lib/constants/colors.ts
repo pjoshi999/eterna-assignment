@@ -23,8 +23,8 @@ export const COLORS = {
   // Accent Colors
   accent: {
     primary: "#526fff",
-    success: "#22c55e",
-    successLight: "#25d365",
+    success: "#5cd38e",
+    successLight: "#5cd38e",
     danger: "#ef4444",
     dangerLight: "#ff4e4e",
     twitter: "#5dbcff",

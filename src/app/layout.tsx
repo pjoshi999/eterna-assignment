@@ -1,15 +1,7 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
 import "./globals.css";
 import "remixicon/fonts/remixicon.css";
 import { Providers } from "@/components/Providers";
-
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist",
-  weight: ["400"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Axiom Trade - Token Discovery",
@@ -23,7 +15,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${geist.variable} font-sans antialiased`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+      </head>
+      <body className="geist-sans antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>
