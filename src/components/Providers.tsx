@@ -1,32 +1,25 @@
 "use client";
 
-/**
- * Providers Component
- * Wraps the app with Redux and React Query providers
- */
-
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { store } from "@/store";
-import { ReactNode, useState } from "react";
+import { ToastProvider } from "./ui/toast";
 
-export function Providers({ children }: { children: ReactNode }) {
-  // Create React Query client (client-side only)
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 60 * 1000, // 1 minute
-            refetchOnWindowFocus: false,
-          },
-        },
-      })
-  );
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
+export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <ToastProvider>{children}</ToastProvider>
+      </QueryClientProvider>
     </Provider>
   );
 }

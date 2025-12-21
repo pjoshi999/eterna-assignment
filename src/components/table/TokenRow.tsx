@@ -1,11 +1,11 @@
 /**
  * TokenRow Component - EXACT Axiom Trade Match
- * Based on Axiom Trade screenshot with Remix Icons
+ * Based on Axiom Trade screenshot with Remix Icons and Toast
  */
 
 "use client";
 
-import { memo, useState } from "react";
+import { memo } from "react";
 import type { Token } from "@/types";
 import { PriceFlash } from "../realtime/PriceFlash";
 import {
@@ -14,20 +14,23 @@ import {
   shortenAddress,
 } from "@/lib/utils/formatters";
 import Image from "next/image";
+import { useToast } from "../ui/toast";
 
 interface TokenRowProps {
   token: Token;
 }
 
 export const TokenRow = memo(function TokenRow({ token }: TokenRowProps) {
-  const [copied, setCopied] = useState(false);
+  const { showToast } = useToast();
 
   const handleCopyAddress = async (e: React.MouseEvent) => {
     e.stopPropagation();
     try {
       await navigator.clipboard.writeText(token.address);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      showToast(
+        "Address copied to clipboard",
+        <i className="ri-file-copy-fill text-[20px]"></i>
+      );
     } catch {
       console.error("Failed to copy");
     }
@@ -69,7 +72,6 @@ export const TokenRow = memo(function TokenRow({ token }: TokenRowProps) {
           >
             <i className="text-inherit ri-file-copy-fill text-[14px]"></i>
           </button>
-          {copied && <span className="text-xs text-success">Copied!</span>}
         </div>
 
         {/* Time and Icons Row */}
