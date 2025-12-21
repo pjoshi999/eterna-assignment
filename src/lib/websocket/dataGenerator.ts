@@ -1,6 +1,6 @@
 /**
  * Data Generator for Mock Tokens
- * Generates realistic token data with better images
+ * Generates realistic token data with UI Avatars
  */
 
 import type { Token, TokenIndicator, ColumnType } from "@/types";
@@ -39,36 +39,36 @@ const tokenNames = [
 ];
 
 const fullNames = [
-  "Popcat Coin",
-  "Bonk Token",
+  "Popcat",
+  "Bonk",
   "Dogwifhat",
-  "Samoyedcoin",
-  "Myro Token",
+  "Samo",
+  "Myro",
   "Fartcoin",
-  "Silly Dragon",
-  "Maneki Neko",
-  "Michi Token",
-  "Cat in a dogs world",
-  "Gummy Bear",
-  "Toshi Token",
-  "Duko Token",
-  "Ponke Meme",
+  "Silly",
+  "Maneki",
+  "Michi",
+  "Mew",
+  "Gummy",
+  "Toshi",
+  "Duko",
+  "Ponke",
   "Moo Deng",
-  "Peng Coin",
-  "Slerf Token",
-  "BOOK OF MEME",
-  "Hobbes Token",
-  "Mumu Token",
-  "Goatseus Maximus",
-  "Zeus Network",
+  "Peng",
+  "Slerf",
+  "BOME",
+  "Hobbes",
+  "Mumu",
+  "Goat",
+  "Zeus",
   "Act I",
-  "Wen Token",
-  "Mother Iggy",
-  "Daddy Tate",
+  "Wen",
+  "Mother",
+  "Daddy",
   "Retardio",
-  "Giga Chad",
-  "Michi Cat",
-  "Rats on Solana",
+  "Giga",
+  "Michi",
+  "Rats",
 ];
 
 function randomBetween(min: number, max: number): number {
@@ -79,7 +79,7 @@ function generateIndicators(): TokenIndicator[] {
   return [
     {
       label: "Top 10 Holders",
-      percentage: Math.floor(randomBetween(60, 95)),
+      percentage: Math.floor(randomBetween(0, 100)),
       color: Math.random() > 0.5 ? "red" : "green",
     },
     {
@@ -114,8 +114,10 @@ export function generateMockTokens(count: number): Token[] {
     const fullName = fullNames[i % fullNames.length];
     const column = columns[i % 3];
 
-    // Use placeholder images with unique seeds
-    const imageUrl = `https://api.multiavatar.com/${name}-${i}.png`;
+    // Use UI Avatars API with token name
+    const imageUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+      name
+    )}&background=random&size=140&bold=true`;
 
     const currentPrice = randomBetween(0.0001, 10);
 
@@ -132,11 +134,11 @@ export function generateMockTokens(count: number): Token[] {
       previousPrice: currentPrice,
       metrics: {
         marketCap: randomBetween(10000, 100000000),
-        volume24h: randomBetween(1000, 10000000),
+        volume24h: randomBetween(100, 10000000),
         priceChange24h: randomBetween(-50, 200),
         holders: Math.floor(randomBetween(100, 50000)),
         liquidity: randomBetween(5000, 5000000),
-        funding: randomBetween(1000, 10000),
+        funding: randomBetween(100, 10000),
       },
       socials: {
         twitter:
