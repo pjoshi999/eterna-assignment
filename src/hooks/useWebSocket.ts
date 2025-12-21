@@ -1,15 +1,15 @@
 /**
  * useWebSocket Hook
  * Custom hook for managing WebSocket connection and updates
+ * FIXED: Proper initialization and memoization
  */
 
 "use client";
 
-import { useEffect, useCallback } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useEffect, useRef } from "react";
+import { useAppDispatch } from "@/store/hooks";
 import {
   setConnected,
-  setConnecting,
   setError as setWSError,
 } from "@/store/slices/websocketSlice";
 import {
@@ -23,23 +23,36 @@ import type { TokenUpdate } from "@/types";
 
 export function useWebSocket() {
   const dispatch = useAppDispatch();
-  const { connected } = useAppSelector((state) => state.websocket);
-  const ws = getMockWebSocket({ updateInterval: 1 }); // 1ms updates
+  const wsRef = useRef<ReturnType<typeof getMockWebSocket> | null>(null);
+  const initializedRef = useRef(false);
 
-  const connect = useCallback(() => {
+  useEffect(() => {
+    // Prevent double initialization in strict mode
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+
     try {
-      dispatch(setConnecting(true));
+      console.log("🔌 Initializing WebSocket...");
       dispatch(setLoading(true));
 
+      // Get WebSocket instance (singleton)
+      wsRef.current = getMockWebSocket({ updateInterval: 100 }); // 100ms for visible updates
+
       // Get initial tokens
-      const initialTokens = ws.getInitialTokens();
+      const initialTokens = wsRef.current.getInitialTokens();
+      console.log(`📊 Loaded ${initialTokens.length} initial tokens`);
+
+      // Dispatch to Redux
       dispatch(setTokens(initialTokens));
 
-      // Connect WebSocket
-      ws.connect();
+      // Set up message handler for real-time updates
+      wsRef.current.onMessage((update: TokenUpdate) => {
+        dispatch(updateToken(update));
+      });
 
       // Set up connection handler
-      ws.onConnection((status) => {
+      wsRef.current.onConnection((status) => {
+        console.log(`📡 WebSocket status: ${status}`);
         if (status === "connected") {
           dispatch(setConnected(true));
           dispatch(setLoading(false));
@@ -52,36 +65,24 @@ export function useWebSocket() {
         }
       });
 
-      // Set up message handler
-      ws.onMessage((update: TokenUpdate) => {
-        dispatch(updateToken(update));
-      });
+      // Connect WebSocket
+      wsRef.current.connect();
+      console.log("✅ WebSocket connected");
     } catch (err) {
+      console.error("❌ WebSocket error:", err);
       dispatch(
         setWSError(err instanceof Error ? err.message : "Unknown error")
       );
       dispatch(setError("Failed to initialize WebSocket"));
       dispatch(setLoading(false));
     }
-  }, [dispatch, ws]);
-
-  const disconnect = useCallback(() => {
-    ws.disconnect();
-  }, [ws]);
-
-  useEffect(() => {
-    // Auto-connect on mount
-    connect();
 
     // Cleanup on unmount
     return () => {
-      disconnect();
+      if (wsRef.current) {
+        console.log("🔌 Disconnecting WebSocket...");
+        wsRef.current.disconnect();
+      }
     };
-  }, [connect, disconnect]);
-
-  return {
-    connected,
-    connect,
-    disconnect,
-  };
+  }, [dispatch]);
 }
