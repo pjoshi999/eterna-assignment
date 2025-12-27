@@ -180,7 +180,7 @@ export function TopNav() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="w-[40px] h-[35px] flex items-center justify-center rounded-full bg-[#21242d] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group">
-                <i className="ri-user-3-line text-[18px] text-[#9CA3AF] group-hover:text-white transition-colors"></i>
+                <i className="ri-user-3-line text-[18px] text-[#fff] group-hover:text-white transition-colors"></i>
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -213,7 +213,7 @@ export function TopNav() {
 
         <div className="flex lg:hidden items-center gap-2">
           <button className="h-[32px] px-2.5 rounded-full bg-[#21242d] border border-[#22242d] flex items-center gap-2 hover:bg-[#22242d] transition-colors">
-            <i className="ri-wallet-3-line text-[#9CA3AF] text-[14px]"></i>
+            <i className="ri-wallet-3-line text-[#fff] text-[14px]"></i>
             <span className="text-[12px] font-medium text-white">0</span>
             <div className="w-[1px] h-[10px] bg-[#22242d]"></div>
             <i className="ri-global-line text-[#00E0FF] text-[14px]"></i>
@@ -222,8 +222,8 @@ export function TopNav() {
           </button>
 
           <button className="h-[32px] px-2.5 rounded-full bg-[#21242d] border border-[#22242d] flex items-center gap-2 hover:bg-[#22242d] hover:text-white transition-colors group">
-            <i className="ri-file-copy-line text-[#9CA3AF] text-[14px] group-hover:text-white"></i>
-            <span className="text-[12px] font-medium text-[#9CA3AF] group-hover:text-white">
+            <i className="ri-file-copy-line text-[#fff] text-[14px] group-hover:text-white"></i>
+            <span className="text-[12px] font-medium text-[#fff] group-hover:text-white">
               Paste CA
             </span>
           </button>
@@ -232,14 +232,14 @@ export function TopNav() {
             onClick={() => setIsSearchOpen(true)}
             className="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#21242d] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group"
           >
-            <i className="ri-search-2-line text-[14px] text-[#9CA3AF] group-hover:text-white"></i>
+            <i className="ri-search-2-line text-[14px] text-[#fff] group-hover:text-white"></i>
           </button>
 
           <button
             onClick={() => setIsSidebarOpen(true)}
             className="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#21242d] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group"
           >
-            <i className="ri-menu-line text-[14px] text-[#9CA3AF] group-hover:text-white"></i>
+            <i className="ri-menu-line text-[14px] text-[#fff] group-hover:text-white"></i>
           </button>
         </div>
       </nav>
