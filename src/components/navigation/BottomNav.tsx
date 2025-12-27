@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils/cn";
 export function BottomNav() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#0a0b0f] border-t border-[#1A1B1F] py-2 lg:hidden">
-      <div className="flex items-center justify-center gap-8 mx-auto w-full">
+      <div className="flex items-center justify-around px-3 gap-8 mx-auto w-full">
         <BottomNavItem icon="ri-fire-line" label="Trending" />
         <BottomNavItem icon="ri-radar-line" label="Track" />
         <BottomNavItem icon="ri-pulse-line" label="Pulse" isActive />

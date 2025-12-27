@@ -6,8 +6,7 @@ A pixel-perfect replica of Axiom Trade's token discovery table built with Next.j
 
 ## 🚀 Live Demo
 
-- **Production**: [https://eterna-assignment.vercel.app](https://your-deployment-url.vercel.app) _(To be deployed)_
-- **Video Demo**: [YouTube - 2 Min Walkthrough](https://youtube.com/your-video) _(To be uploaded)_
+- **Production**: [https://eterna-assignment-git-main-pjoshi999s-projects.vercel.app?_vercel_share=SPJktFHUrIxRe2DqR43RYrjQnxiO0l2M](https://eterna-assignment-git-main-pjoshi999s-projects.vercel.app?_vercel_share=SPJktFHUrIxRe2DqR43RYrjQnxiO0l2M)
 
 ### Technical Highlights
 - ⚡ **Performance Optimized**: React.memo, optimized Redux state structure (O(1) lookups).
@@ -15,6 +14,10 @@ A pixel-perfect replica of Axiom Trade's token discovery table built with Next.j
 - 📱 **Mobile-First UX**: Native-like bottom sheets, scrollable tabs, and responsive gestures.
 - 🔄 **State Management**: Redux Toolkit + Local State separation.
 - 📊 **Strict Typing**: No `any` types, comprehensive interfaces.
+
+## 📄 Overview
+
+
 
 > **[See DESIGN.md](./DESIGN.md) for detailed architecture and design decisions.**
 
