@@ -83,7 +83,9 @@ export function MobileDisplaySettingsModal({
           {["layout", "metrics", "row", "extras"].map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() =>
+                setActiveTab(tab as "metrics" | "layout" | "row" | "extras")
+              }
               className={`flex-1 py-3 text-[13px] font-medium capitalize border-b-2 transition-colors ${
                 activeTab === tab
                   ? "border-[#526fff] text-white"

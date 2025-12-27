@@ -17,7 +17,7 @@ export function Footer() {
       <div className="flex items-center gap-3">
         {/* Preset Button */}
         <TradingSettingsModal>
-          <button className="text-[#526fff] bg-[#526fff]/20 flex flex-row h-[24px] px-[8px] gap-[4px] justify-start items-center rounded-[4px] hover:bg-[#526fff]/25 transition-colors duration-[150ms] ease-in-out cursor-pointer group">
+          <button className="text-[#526fff] bg-[#526fff]/20 flex flex-row h-[24px] px-[8px] gap-[4px] justify-start items-center rounded-[4px] hover:bg-[#526fff]/25 transition-colors duration-150 ease-in-out cursor-pointer group">
             <i className="ri-list-settings-line text-[16px]"></i>
             <span>PRESET 1</span>
             {/* Tooltip via native title for simplicity as nesting complex triggers can conflicts, or we can use the Tooltip wrapper inside if tested */}

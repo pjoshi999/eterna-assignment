@@ -90,7 +90,10 @@ export function MobileFilterModal({ children }: MobileFilterModalProps) {
         {/* Status Tabs */}
         <div className="flex gap-4 p-4 border-b border-[#1a1b1f]">
           {["New Pairs", "Final Stretch", "Migrated"].map((tab) => {
-            const id = tab.toLowerCase().replace(" ", "") as any;
+            const id = tab.toLowerCase().replace(" ", "") as
+              | "newpairs"
+              | "finalstretch"
+              | "migrated";
             const isActive = activeTab === id;
             return (
               <button
