@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import "remixicon/fonts/remixicon.css";
 import { Providers } from "@/components/Providers";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   title: "Axiom Trade - Token Discovery",
@@ -14,16 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-      </head>
-      <body className="geist-sans antialiased">
+    <html lang="en" className={`dark ${inter.variable}`}>
+      <body className="font-sans antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -76,6 +76,12 @@ function randomBetween(min: number, max: number): number {
 function generateIndicators(): TokenIndicator[] {
   return [
     {
+      type: "bonding",
+      label: "Bonding Curve",
+      percentage: Math.floor(randomBetween(1, 100)),
+      tooltip: "Bonding curve progress",
+    },
+    {
       type: "holders",
       label: "Top 10 Holders",
       percentage: Math.floor(randomBetween(0, 100)),

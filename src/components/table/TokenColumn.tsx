@@ -10,7 +10,13 @@ import { useAppSelector } from "@/store/hooks";
 import type { ColumnType } from "@/types";
 import { TokenRow } from "./TokenRow";
 import { Skeleton } from "../ui/skeleton";
-import { Menu } from "lucide-react";
+import Image from "next/image";
+import {
+  Popover,
+  PopoverContent,
+  PopoverAnchor,
+} from "@/components/ui/popover";
+import { useState } from "react";
 
 interface TokenColumnProps {
   column: ColumnType;
@@ -24,6 +30,11 @@ export const TokenColumn = memo(function TokenColumn({
   const { tokens, newPairs, finalStretch, migrated, loading } = useAppSelector(
     (state) => state.token
   );
+
+  const [activePreset, setActivePreset] = useState<string | null>(null);
+
+  const handleMouseEnter = (preset: string) => setActivePreset(preset);
+  const handleMouseLeave = () => setActivePreset(null);
 
   const tokenIds = useMemo(() => {
     switch (column) {
@@ -44,46 +55,147 @@ export const TokenColumn = memo(function TokenColumn({
   return (
     <div className="flex flex-col h-full bg-[#101114] overflow-hidden border-r border-[#1a1b1f] last:border-r-0">
       {/* Header - Exact Axiom Style */}
-      <div className="flex items-center justify-between px-3 py-2.5 border-b border-[#1a1b1f] bg-[#101114]">
+      <div className="hidden sm:flex items-center justify-between px-3 py-2 border-b border-[#1a1b1f] bg-[#101114]">
         <div className="flex items-center gap-3">
-          <h2 className="text-[15px] font-medium text-white">{title}</h2>
+          <h2 className="text-[16px] font-medium text-white">{title}</h2>
         </div>
 
-        <div className="flex items-center gap-1.5">
-          {/* Filter Menu */}
-          <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-[rgba(255,255,255,0.05)] transition-colors">
-            <Menu className="w-4 h-4 text-[#6b7280]" />
-          </button>
-
-          {/* Preset Buttons */}
-          <div className="flex items-center gap-0.5">
-            <button className="px-2 py-0.5 text-[11px] font-medium text-white bg-[#526fff] rounded hover:bg-[#4156cc] transition-colors">
-              P1
-            </button>
-            <button className="px-2 py-0.5 text-[11px] font-medium text-[#6b7280] hover:bg-[rgba(255,255,255,0.05)] rounded transition-colors">
-              P2
-            </button>
-            <button className="px-2 py-0.5 text-[11px] font-medium text-[#6b7280] hover:bg-[rgba(255,255,255,0.05)] rounded transition-colors">
-              P3
-            </button>
-          </div>
-
-          {/* Sort Icon */}
-          <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-[rgba(255,255,255,0.05)] transition-colors">
-            <svg
-              className="w-4 h-4 text-[#6b7280]"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex items-center bg-[#0d0e12] border border-[#1a1b1f] rounded-full px-3 py-1 gap-3">
+            <div className="flex items-center gap-2">
+              <i className="ri-flashlight-fill text-[#777a8c] text-[14px]"></i>
+              <span className="text-white text-[14px] font-medium">0</span>
+              <Image
+                src="https://axiom.trade/images/sol-fill.svg"
+                alt="sol"
+                width={14}
+                height={14}
               />
-            </svg>
-          </button>
+            </div>
+            <div className="w-[1px] h-3 bg-[#1a1b1f]"></div>
+            <div className="flex items-center gap-3">
+              <Popover open={activePreset === "P1"}>
+                <PopoverAnchor asChild>
+                  <span
+                    onMouseEnter={() => handleMouseEnter("P1")}
+                    onMouseLeave={handleMouseLeave}
+                    className={`text-[12px] font-medium cursor-pointer transition-colors ${
+                      activePreset === "P1"
+                        ? "text-white"
+                        : "text-[#777a8c] hover:text-white"
+                    }`}
+                  >
+                    P1
+                  </span>
+                </PopoverAnchor>
+                <PopoverContent
+                  onMouseEnter={() => handleMouseEnter("P1")}
+                  onMouseLeave={handleMouseLeave}
+                  className="bg-[#0f1014] border border-[#1a1b1f] p-2 rounded-[8px] flex flex-col gap-2 w-auto min-w-[100px] z-50 shadow-xl"
+                  sideOffset={5}
+                >
+                  <div className="flex items-center gap-2 text-[12px] text-[#9ca3af]">
+                    <i className="ri-settings-4-line w-4 text-center"></i>
+                    <span>20%</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[12px] text-[#F59E0B]">
+                    <i className="ri-gas-station-line w-4 text-center"></i>
+                    <span>0.001</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[12px] text-[#9ca3af]">
+                    <i className="ri-stack-line w-4 text-center"></i>
+                    <span>0.01</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[12px] text-[#9ca3af]">
+                    <i className="ri-shield-line w-4 text-center"></i>
+                    <span>Off</span>
+                  </div>
+                </PopoverContent>
+              </Popover>
+
+              <Popover open={activePreset === "P2"}>
+                <PopoverAnchor asChild>
+                  <span
+                    onMouseEnter={() => handleMouseEnter("P2")}
+                    onMouseLeave={handleMouseLeave}
+                    className={`text-[12px] font-medium cursor-pointer transition-colors ${
+                      activePreset === "P2"
+                        ? "text-white"
+                        : "text-[#777a8c] hover:text-white"
+                    }`}
+                  >
+                    P2
+                  </span>
+                </PopoverAnchor>
+                <PopoverContent
+                  onMouseEnter={() => handleMouseEnter("P2")}
+                  onMouseLeave={handleMouseLeave}
+                  className="bg-[#0f1014] border border-[#1a1b1f] p-2 rounded-[8px] flex flex-col gap-2 w-auto min-w-[100px] z-50 shadow-xl"
+                  sideOffset={5}
+                >
+                  <div className="flex items-center gap-2 text-[12px] text-[#9ca3af]">
+                    <i className="ri-settings-4-line w-4 text-center"></i>
+                    <span>20%</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[12px] text-[#F59E0B]">
+                    <i className="ri-gas-station-line w-4 text-center"></i>
+                    <span>0.001</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[12px] text-[#9ca3af]">
+                    <i className="ri-stack-line w-4 text-center"></i>
+                    <span>0.01</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[12px] text-[#9ca3af]">
+                    <i className="ri-shield-line w-4 text-center"></i>
+                    <span>Off</span>
+                  </div>
+                </PopoverContent>
+              </Popover>
+
+              <Popover open={activePreset === "P3"}>
+                <PopoverAnchor asChild>
+                  <span
+                    onMouseEnter={() => handleMouseEnter("P3")}
+                    onMouseLeave={handleMouseLeave}
+                    className={`text-[12px] font-medium cursor-pointer transition-colors ${
+                      activePreset === "P3"
+                        ? "text-white"
+                        : "text-[#52c5ff] hover:text-white"
+                    }`}
+                  >
+                    P3
+                  </span>
+                </PopoverAnchor>
+                <PopoverContent
+                  onMouseEnter={() => handleMouseEnter("P3")}
+                  onMouseLeave={handleMouseLeave}
+                  className="bg-[#0f1014] border border-[#1a1b1f] p-2 rounded-[8px] flex flex-col gap-2 w-auto min-w-[100px] z-50 shadow-xl"
+                  sideOffset={5}
+                >
+                  <div className="flex items-center gap-2 text-[12px] text-[#9ca3af]">
+                    <i className="ri-settings-4-line w-4 text-center"></i>
+                    <span>20%</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[12px] text-[#F59E0B]">
+                    <i className="ri-gas-station-line w-4 text-center"></i>
+                    <span>0.001</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[12px] text-[#9ca3af]">
+                    <i className="ri-stack-line w-4 text-center"></i>
+                    <span>0.01</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[12px] text-[#9ca3af]">
+                    <i className="ri-shield-line w-4 text-center"></i>
+                    <span>Off</span>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
+          </div>
+          <div className="relative">
+            <i className="ri-equalizer-2-line text-[#777a8c] text-[20px]"></i>
+            <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[#52c5ff] rounded-full border border-[#0a0b0f]"></div>
+          </div>
         </div>
       </div>
 

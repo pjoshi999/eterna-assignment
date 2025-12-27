@@ -6,7 +6,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, Copy } from "lucide-react";
+import { Copy } from "lucide-react";
 import { Dialog, DialogContent } from "../ui/dialog";
 
 interface DepositModalProps {
@@ -24,9 +24,6 @@ export function DepositModal({ isOpen, onClose }: DepositModalProps) {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-[#1a1b1f]">
           <h2 className="text-base font-medium text-white">Exchange</h2>
-          <button onClick={onClose} className="text-[#6b7280] hover:text-white">
-            <X className="w-4 h-4" />
-          </button>
         </div>
 
         {/* Tabs */}
@@ -98,7 +95,7 @@ export function DepositModal({ isOpen, onClose }: DepositModalProps) {
 
           {/* Buy Link */}
           <p className="text-xs text-center">
-            <span className="text-[#6b7280]">Don't have any Solana? </span>
+            <span className="text-[#6b7280]">Don&apos;t have any Solana? </span>
             <button className="text-[#526fff] hover:underline">
               Buy through Onramper
             </button>

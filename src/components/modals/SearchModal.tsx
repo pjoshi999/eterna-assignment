@@ -6,9 +6,7 @@
 "use client";
 
 import { useState } from "react";
-import { X } from "lucide-react";
 import { Dialog, DialogContent } from "../ui/dialog";
-import Image from "next/image";
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -77,29 +75,28 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 className="flex-1 bg-transparent text-white text-lg outline-none"
                 autoFocus
               />
-              <span className="text-xs text-[#6b7280]">Esc</span>
             </div>
           </div>
 
           {/* Filters */}
           <div className="flex items-center gap-2 px-4 py-3 border-b border-[#1a1b1f] overflow-x-auto">
             <button className="px-3 py-1 bg-[#526fff] text-white text-xs rounded-full whitespace-nowrap">
-              🚀 Pump
+              Pump
             </button>
             <button className="px-3 py-1 bg-[rgba(255,255,255,0.05)] text-[#6b7280] text-xs rounded-full whitespace-nowrap hover:bg-[rgba(255,255,255,0.1)]">
-              🏦 Bonk
+              Bonk
             </button>
             <button className="px-3 py-1 bg-[rgba(255,255,255,0.05)] text-[#6b7280] text-xs rounded-full whitespace-nowrap hover:bg-[rgba(255,255,255,0.1)]">
-              💰 Bags
+              Bags
             </button>
             <button className="px-3 py-1 bg-[rgba(255,255,255,0.05)] text-[#6b7280] text-xs rounded-full whitespace-nowrap hover:bg-[rgba(255,255,255,0.1)]">
-              🔴 USGI
+              USGI
             </button>
             <button className="px-3 py-1 bg-[rgba(255,255,255,0.05)] text-[#6b7280] text-xs rounded-full whitespace-nowrap hover:bg-[rgba(255,255,255,0.1)]">
-              ✅ GS Mode
+              GS Mode
             </button>
             <button className="px-3 py-1 bg-[rgba(255,255,255,0.05)] text-[#6b7280] text-xs rounded-full whitespace-nowrap hover:bg-[rgba(255,255,255,0.1)]">
-              🎓 Graduated
+              Graduated
             </button>
           </div>
 
@@ -137,7 +134,22 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     <div className="flex flex-col items-end gap-0.5">
                       <div className="text-xs">
                         <span className="text-[#6b7280]">MC </span>
-                        <span className="text-[#fbbf24]">{result.mc}</span>
+                        <span
+                          className={(() => {
+                            const cleanMC = result.mc.replace(/[$,]/g, "");
+                            let numericVal = parseFloat(cleanMC);
+                            if (cleanMC.endsWith("K")) numericVal *= 1000;
+                            else if (cleanMC.endsWith("M"))
+                              numericVal *= 1000000;
+                            else if (cleanMC.endsWith("B"))
+                              numericVal *= 1000000000;
+                            return numericVal < 30000000
+                              ? "text-[#52c5ff]"
+                              : "text-[#fbbf24]";
+                          })()}
+                        >
+                          {result.mc}
+                        </span>
                       </div>
                       <div className="text-xs">
                         <span className="text-[#6b7280]">V </span>

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .geist-sans {
-  font-family: "Geist", sans-serif;
+  font-family: var(--font-geist), sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;

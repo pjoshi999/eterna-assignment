@@ -15,9 +15,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"; // Added Tooltip imports
 
 import { MobileSidebar } from "./MobileSidebar";
 import { BottomNav } from "./BottomNav";
+import { Footer } from "./Footer";
+import { NotificationPopover } from "./NotificationPopover";
+import { WalletPopover } from "./WalletPopover";
+import { ProfileDropdown } from "./ProfileDropdown";
+import Image from "next/image";
 
 export function TopNav() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -27,7 +37,7 @@ export function TopNav() {
   return (
     <div className="flex flex-col w-full bg-[#0a0b0f]">
       {/* Main Top Navigation */}
-      <nav className="w-full h-[64px] px-2 sm:px-6 border-b border-[#1A1B1F] flex items-center justify-between bg-[#0a0b0f] relative z-30">
+      <nav className="w-full h-[64px] px-2 sm:px-3 border-b border-[#1A1B1F] flex items-center justify-between bg-[#0a0b0f] relative z-30">
         {/* Left - Logo and Nav Items */}
         <div className="flex items-center gap-4 flex-1 min-w-0">
           {/* Logo */}
@@ -95,69 +105,106 @@ export function TopNav() {
         {/* Desktop Right - Search, SOL, Deposit, Wallet (Hidden on Mobile) */}
         <div className="hidden lg:flex items-center gap-3">
           {/* Search Button */}
-          <button
-            onClick={() => setIsSearchOpen(true)}
-            className="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-[#15161A] hover:bg-[#2A2B30] hover:text-white border border-[#2A2B30] transition-colors group"
-          >
-            <i className="ri-search-2-line text-[18px] text-[#9CA3AF] group-hover:text-white transition-colors"></i>
-          </button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="w-[35px] h-[35px] flex items-center justify-center rounded-full hover:bg-[#22242d]/[0.35] text-white border border-[#22242d] transition-colors group"
+              >
+                <i className="ri-search-2-line text-[18px]"></i>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Search Tokens</p>
+            </TooltipContent>
+          </Tooltip>
 
           {/* SOL Network Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="h-[40px] px-3.5 rounded-full bg-[#15161A] border border-[#2A2B30] flex items-center gap-2 hover:bg-[#2A2B30] transition-colors group">
-                <i className="ri-menu-4-line text-[#00E0FF] text-[16px]"></i>
+              <button className="h-[35px] px-3.5 rounded-full bg-[#15161A] border border-[#22242d] flex items-center gap-2 hover:bg-[#22242d] transition-colors group">
+                <Image
+                  src="https://axiom.trade/images/sol-fill.svg"
+                  alt="sol"
+                  width={17}
+                  height={17}
+                  className="sm:w-[17px] sm:h-[17px] w-[20px] h-[20px]"
+                />
                 <span className="text-[14px] font-medium text-white">SOL</span>
-                <i className="ri-arrow-down-s-line text-[#6B7280] text-[16px] group-hover:text-white transition-colors"></i>
+                <i className="ri-arrow-down-s-line text-[16px]"></i>
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="bg-[#0f1014] border border-[#1a1b1f]">
               <DropdownMenuItem className="flex items-center gap-2 text-white hover:bg-[rgba(255,255,255,0.05)]">
-                <div className="w-4 h-4 bg-gradient-to-br from-purple-500 to-green-400 rounded-full"></div>
+                <Image
+                  src="https://axiom.trade/images/sol-fill.svg"
+                  alt="sol"
+                  width={17}
+                  height={17}
+                  className="sm:w-[17px] sm:h-[17px] w-[20px] h-[20px]"
+                />
                 <span>Solana</span>
               </DropdownMenuItem>
               <DropdownMenuItem className="flex items-center gap-2 text-white hover:bg-[rgba(255,255,255,0.05)]">
-                <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                <Image
+                  src="https://axiom.trade/images/pump.svg"
+                  alt="sol"
+                  width={17}
+                  height={17}
+                  className="sm:w-[17px] sm:h-[17px] w-[20px] h-[20px]"
+                />
                 <span>BNB</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
           {/* Deposit Button */}
-          <button
-            onClick={() => setIsDepositOpen(true)}
-            className="h-[40px] px-6 bg-[#526fff] text-[14px] text-black font-semibold rounded-full hover:bg-[#4156cc] transition-colors flex items-center"
-          >
-            Deposit
-          </button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={() => setIsDepositOpen(true)}
+                className="h-[35px] px-3 bg-[#526fff] text-[14px] text-black font-semibold rounded-full hover:bg-[#4156cc] transition-colors flex items-center"
+              >
+                Deposit
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Deposit Funds</p>
+            </TooltipContent>
+          </Tooltip>
 
           {/* Star Button */}
-          <button className="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#2A2B30] hover:bg-[#2A2B30] hover:text-white transition-colors group">
-            <i className="ri-star-line text-[18px] text-[#9CA3AF] group-hover:text-white transition-colors"></i>
-          </button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button className="w-[40px] h-[35px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group">
+                <i className="ri-star-line text-[18px]"></i>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Watchlist</p>
+            </TooltipContent>
+          </Tooltip>
 
-          {/* Bell Button */}
-          <button className="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#2A2B30] hover:bg-[#2A2B30] hover:text-white transition-colors group">
-            <i className="ri-notification-3-line text-[18px] text-[#9CA3AF] group-hover:text-white transition-colors"></i>
-          </button>
+          {/* Notification Popover */}
+          <NotificationPopover />
 
-          {/* Wallet / User Menu */}
+          {/* Wallet Popover */}
+          <WalletPopover />
+
+          {/* Profile Dropdown */}
+          <ProfileDropdown />
+
+          {/* Settings / User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="h-[40px] pl-4 pr-3 rounded-full bg-[#15161A] border border-[#2A2B30] flex items-center gap-3 hover:bg-[#2A2B30] transition-colors group">
-                <div className="flex items-center gap-2">
-                  <i className="ri-wallet-3-line text-[#9CA3AF] text-[18px] group-hover:text-white transition-colors"></i>
-                  <span className="text-[14px] font-medium text-white">0</span>
-                </div>
-                <div className="w-[1px] h-[16px] bg-[#2A2B30]"></div>
-                <div className="flex items-center gap-2">
-                  <i className="ri-global-line text-[#00E0FF] text-[18px]"></i>
-                  <span className="text-[14px] font-medium text-white">0</span>
-                  <i className="ri-arrow-down-s-line text-[#6B7280] text-[16px] ml-1 group-hover:text-white transition-colors"></i>
-                </div>
+              <button className="w-[40px] h-[35px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group">
+                <i className="ri-user-3-line text-[18px] text-[#9CA3AF] group-hover:text-white transition-colors"></i>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-[#0f1014] border border-[#1a1b1f] w-56">
+            <DropdownMenuContent
+              align="end"
+              className="bg-[#0f1014] border border-[#1a1b1f] w-56"
+            >
               <DropdownMenuItem className="flex items-center gap-2 text-white hover:bg-[rgba(255,255,255,0.05)]">
                 <i className="ri-user-line"></i>
                 <span>Account and Security</span>
@@ -180,27 +227,22 @@ export function TopNav() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-
-          {/* User Profile Circle */}
-          <button className="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#2A2B30] hover:bg-[#2A2B30] hover:text-white transition-colors group">
-            <i className="ri-user-3-line text-[18px] text-[#9CA3AF] group-hover:text-white transition-colors"></i>
-          </button>
         </div>
 
         {/* Mobile Right Nav (Visible on Mobile) */}
         <div className="flex lg:hidden items-center gap-2">
           {/* Mobile Wallet Pill */}
-          <button className="h-[32px] px-2.5 rounded-full bg-[#15161A] border border-[#2A2B30] flex items-center gap-2 hover:bg-[#2A2B30] transition-colors">
+          <button className="h-[32px] px-2.5 rounded-full bg-[#15161A] border border-[#22242d] flex items-center gap-2 hover:bg-[#22242d] transition-colors">
             <i className="ri-wallet-3-line text-[#9CA3AF] text-[14px]"></i>
             <span className="text-[12px] font-medium text-white">0</span>
-            <div className="w-[1px] h-[10px] bg-[#2A2B30]"></div>
+            <div className="w-[1px] h-[10px] bg-[#22242d]"></div>
             <i className="ri-global-line text-[#00E0FF] text-[14px]"></i>
             <span className="text-[12px] font-medium text-white">0</span>
             <i className="ri-arrow-down-s-line text-[#6B7280] text-[12px]"></i>
           </button>
 
           {/* Paste CA Button */}
-          <button className="h-[32px] px-2.5 rounded-full bg-[#15161A] border border-[#2A2B30] flex items-center gap-2 hover:bg-[#2A2B30] hover:text-white transition-colors group">
+          <button className="h-[32px] px-2.5 rounded-full bg-[#15161A] border border-[#22242d] flex items-center gap-2 hover:bg-[#22242d] hover:text-white transition-colors group">
             <i className="ri-file-copy-line text-[#9CA3AF] text-[14px] group-hover:text-white"></i>
             <span className="text-[12px] font-medium text-[#9CA3AF] group-hover:text-white">
               Paste CA
@@ -210,7 +252,7 @@ export function TopNav() {
           {/* Mobile Search Button */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#2A2B30] hover:bg-[#2A2B30] hover:text-white transition-colors group"
+            className="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group"
           >
             <i className="ri-search-2-line text-[14px] text-[#9CA3AF] group-hover:text-white"></i>
           </button>
@@ -218,7 +260,7 @@ export function TopNav() {
           {/* Hamburger Menu */}
           <button
             onClick={() => setIsSidebarOpen(true)}
-            className="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#2A2B30] hover:bg-[#2A2B30] hover:text-white transition-colors group"
+            className="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group"
           >
             <i className="ri-menu-line text-[14px] text-[#9CA3AF] group-hover:text-white"></i>
           </button>
@@ -259,6 +301,7 @@ export function TopNav() {
       />
 
       <BottomNav />
+      <Footer />
     </div>
   );
 }

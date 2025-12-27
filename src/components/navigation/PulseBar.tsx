@@ -1,131 +1,233 @@
-/**
- * PulseBar Component - Secondary control bar for Pulse section
- */
-
-"use client";
-
-import {
-  Menu,
-  HelpCircle,
-  Grid,
-  Volume2,
-  RefreshCw,
-  ChevronDown,
-} from "lucide-react";
 import Image from "next/image";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { DisplaySettings } from "./DisplaySettings";
+import { BlacklistModal } from "./modals/BlacklistModal";
+import { HotkeysModal } from "./modals/HotkeysModal";
+import { AlertsModal } from "./modals/AlertsModal";
+import { SnipeSettingsModal } from "./modals/SnipeSettingsModal";
+import { useState } from "react";
+import { MobileSettingsAccordion } from "./MobileSettingsAccordion";
+import { WalletSelector } from "./modals/WalletSelector";
 
-export function PulseBar() {
+interface PulseBarProps {
+  activeMobileTab?: string;
+  onTabChange?: (tab: string) => void;
+}
+
+export function PulseBar({
+  activeMobileTab = "new",
+  onTabChange,
+}: PulseBarProps) {
+  const [isMobileSettingsOpen, setIsMobileSettingsOpen] = useState(false);
+
   return (
-    <div className="w-full h-12 bg-[#0a0b0f] flex items-center justify-between px-2 sm:px-4 lg:px-0">
+    <div className="w-full h-auto lg:h-12 bg-[#0a0b0f] flex flex-col lg:flex-row items-center justify-between px-2 sm:px-4 lg:px-0 mb-2">
       {/* Mobile View */}
-      <div className="lg:hidden flex items-center w-full gap-3 overflow-hidden">
-        {/* Title & Network Icons */}
-        <div className="flex items-center gap-2 flex-shrink-0">
-          <h1 className="text-[18px] font-medium text-white sm:block hidden">
-            Pulse
-          </h1>
-          <button className="relative flex items-center justify-center sm:w-[24px] sm:h-[24px] w-[32px] h-[32px] rounded-full bg-[#22242d99]">
-            <Image
-              src="https://axiom.trade/images/sol-fill.svg"
-              alt="sol"
-              width={14}
-              height={14}
-              className="sm:w-[14px] sm:h-[14px] w-[20px] h-[20px]"
-            />
-          </button>
-          <button className="relative flex items-center justify-center sm:w-[24px] sm:h-[24px] w-[32px] h-[32px] rounded-full">
-            <Image
-              src="https://axiom.trade/images/bnb-fill.svg"
-              alt="sol"
-              width={14}
-              height={14}
-              className="sm:w-[14px] sm:h-[14px] w-[20px] h-[20px]"
-            />
-          </button>
-        </div>
+      <div className="lg:hidden w-full flex flex-col">
+        <div className="flex items-center w-full gap-3 overflow-hidden h-12 justify-between">
+          {/* Title & Network Icons - Left aligned */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <h1 className="text-[18px] font-medium text-white sm:block hidden">
+              Pulse
+            </h1>
+            <button className="relative flex items-center justify-center sm:w-[24px] sm:h-[24px] w-[32px] h-[32px] rounded-full bg-[#22242d99]">
+              <Image
+                src="https://axiom.trade/images/sol-fill.svg"
+                alt="sol"
+                width={14}
+                height={14}
+                className="sm:w-[14px] sm:h-[14px] w-[20px] h-[20px]"
+              />
+            </button>
+            <button className="relative flex items-center justify-center sm:w-[24px] sm:h-[24px] w-[32px] h-[32px] rounded-full">
+              <i className="ri-hexagon-line text-[#F59E0B] text-[20px]"></i>
+            </button>
+          </div>
 
-        {/* Scrollable Filters */}
-        <div className="flex-1 flex items-center gap-2 overflow-x-auto no-scrollbar mask-gradient-right">
-          <button className="whitespace-nowrap px-3 py-1 text-[13px] font-medium text-[#9ca3af]">
-            New Pairs
-          </button>
-          <button className="whitespace-nowrap px-3 py-1 text-[13px] font-medium text-white bg-[#2A2B30] rounded-full">
-            Final Stretch
-          </button>
-          <button className="whitespace-nowrap px-3 py-1 text-[13px] font-medium text-[#9ca3af]">
-            Migrated
-          </button>
-        </div>
+          {/* Nav Pills - Center/Right - Scrollable & Functional */}
+          <div className="flex-1 flex items-center justify-center gap-1 overflow-x-auto no-scrollbar mask-gradient-right">
+            <button
+              onClick={() => onTabChange?.("new")}
+              className={`whitespace-nowrap px-3 py-1 text-[13px] font-medium rounded-full transition-colors ${
+                activeMobileTab === "new"
+                  ? "bg-[#2A2B30] text-white"
+                  : "bg-transparent text-[#9ca3af] hover:text-white"
+              }`}
+            >
+              New Pairs
+            </button>
+            <button
+              onClick={() => onTabChange?.("final")}
+              className={`whitespace-nowrap px-3 py-1 text-[13px] font-medium rounded-full transition-colors ${
+                activeMobileTab === "final"
+                  ? "bg-[#2A2B30] text-white"
+                  : "bg-transparent text-[#9ca3af] hover:text-white"
+              }`}
+            >
+              Final Stretch
+            </button>
+            <button
+              onClick={() => onTabChange?.("migrated")}
+              className={`whitespace-nowrap px-3 py-1 text-[13px] font-medium rounded-full transition-colors ${
+                activeMobileTab === "migrated"
+                  ? "bg-[#2A2B30] text-white"
+                  : "bg-transparent text-[#9ca3af] hover:text-white"
+              }`}
+            >
+              Migrated
+            </button>
+          </div>
 
-        {/* Right Controls */}
-        <div className="flex items-center gap-2 flex-shrink-0">
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#2A2B30]">
-            <span className="text-[12px] font-medium text-white">P1</span>
-            <i className="ri-settings-3-line text-[#9ca3af] text-[12px]"></i>
+          {/* Right Controls - Settings Toggle */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <button
+              onClick={() => setIsMobileSettingsOpen(!isMobileSettingsOpen)}
+              className={`flex items-center justify-center w-[32px] h-[32px] rounded-full transition-colors ${
+                isMobileSettingsOpen
+                  ? "bg-[#526fff] text-white"
+                  : "bg-transparent text-[#9ca3af]"
+              }`}
+            >
+              <i className="ri-settings-3-line text-[18px]"></i>
+            </button>
           </div>
         </div>
+
+        {/* Accordion */}
+        <MobileSettingsAccordion isOpen={isMobileSettingsOpen} />
       </div>
 
       {/* Desktop View */}
       <div className="hidden lg:flex w-full items-center justify-between">
         {/* Left - Pulse Title with Icons */}
-        <div className="flex items-center gap-1">
-          <h1 className="text-[20px] font-medium text-white pr-2">Pulse</h1>
-          <button className="relative flex items-center justify-center w-[32px] h-[32px] rounded-full transition-all duration-150 bg-[#22242d99] scale-110">
-            <Image
-              src="https://axiom.trade/images/sol-fill.svg"
-              alt="sol"
-              width={20}
-              height={20}
-            />
-          </button>
-          <button className="relative flex items-center justify-center w-[32px] h-[32px] rounded-full transition-all duration-150 hover:bg-[#22242d99] opacity-60 hover:opacity-100">
-            <Image
-              src="https://axiom.trade/images/bnb-fill.svg"
-              alt="sol"
-              width={20}
-              height={20}
-              className="grayscale-[0.3] text-transparent"
-            />
-          </button>
+        <div className="flex items-center gap-3">
+          <h1 className="text-[20px] font-medium text-white">Pulse</h1>
+          <div className="flex items-center gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="relative flex items-center justify-center w-[32px] h-[32px] rounded-full bg-[#1e2028] hover:bg-[#2a2c36] transition-colors">
+                  <Image
+                    src="https://axiom.trade/images/sol-fill.svg"
+                    alt="sol"
+                    width={18}
+                    height={18}
+                  />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Solana Network</p>
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="relative flex items-center justify-center w-[32px] h-[32px] rounded-full hover:bg-[#2a2c36] transition-colors group">
+                  <i className="ri-box-3-line text-[#D97706] text-[18px]"></i>
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Other Networks</p>
+              </TooltipContent>
+            </Tooltip>
+          </div>
         </div>
 
         {/* Right - Display Controls */}
-        <div className="flex items-center gap-2">
-          <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-[rgba(255,255,255,0.05)] transition-colors">
-            <HelpCircle className="w-4 h-4 text-[#6b7280]" />
-          </button>
+        <div className="flex items-center gap-3">
+          {/* Help */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#22242d] transition-colors text-[#6b7280] hover:text-white">
+                <i className="ri-question-line text-[20px]"></i>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Help with Pulse Filters, Settings</p>
+            </TooltipContent>
+          </Tooltip>
 
-          <button className="flex items-center gap-1.5 px-2.5 py-1.5 rounded hover:bg-[rgba(255,255,255,0.05)] transition-colors">
-            <Menu className="w-3.5 h-3.5 text-[#6b7280]" />
-            <span className="text-[12px] text-[#6b7280]">Display</span>
-            <ChevronDown className="w-3 h-3 text-[#6b7280]" />
-          </button>
+          {/* Display Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="h-[32px] px-3 flex items-center gap-2 rounded-full bg-[#22242d] border border-[#22242d] hover:bg-[#22242d] transition-colors group data-[state=open]:bg-[#2a2c36]">
+                <i className="ri-list-check text-white text-[18px] font-medium group-hover:text-white transition-colors"></i>
+                <span className="text-[14px] font-bold text-white">
+                  Display
+                </span>
+                <i className="ri-arrow-down-s-line text-white text-[18px] group-hover:text-white transition-colors"></i>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              sideOffset={8}
+              className="bg-[#0f1014] border border-[#1a1b1f] p-0 rounded-[12px] shadow-2xl"
+            >
+              <DisplaySettings />
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-          <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-[rgba(255,255,255,0.05)] transition-colors">
-            <Grid className="w-4 h-4 text-[#6b7280]" />
-          </button>
-
-          <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-[rgba(255,255,255,0.05)] transition-colors">
-            <Grid className="w-4 h-4 text-[#6b7280]" />
-          </button>
-
-          <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-[rgba(255,255,255,0.05)] transition-colors">
-            <Volume2 className="w-4 h-4 text-[#6b7280]" />
-          </button>
-
-          <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-[rgba(255,255,255,0.05)] transition-colors">
-            <RefreshCw className="w-4 h-4 text-[#6b7280]" />
-          </button>
-
-          <button className="flex items-center gap-1.5 px-2.5 py-1.5 rounded hover:bg-[rgba(255,255,255,0.05)] transition-colors">
-            <span className="text-[12px] text-white font-medium">1</span>
-            <ChevronDown className="w-3 h-3 text-[#6b7280]" />
-          </button>
-
-          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-[rgba(82,111,255,0.1)]">
-            <span className="text-[11px] text-[#526fff] font-medium">= 0</span>
+          {/* Icons Group */}
+          <div className="flex items-center gap-1">
+            <BlacklistModal tooltip="Saved Filters">
+              <button className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#22242d] transition-colors text-[#6b7280] hover:text-white data-[state=open]:bg-[#22242d] data-[state=open]:text-white">
+                <i className="ri-bookmark-line text-[18px]"></i>
+              </button>
+            </BlacklistModal>
+            <HotkeysModal tooltip="Keyboard Shortcuts">
+              <button className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#22242d] transition-colors text-[#6b7280] hover:text-white data-[state=open]:bg-[#22242d] data-[state=open]:text-white">
+                <i className="ri-keyboard-line text-[18px]"></i>
+              </button>
+            </HotkeysModal>
+            <AlertsModal tooltip="Audio Settings">
+              <button className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#22242d] transition-colors text-[#6b7280] hover:text-white data-[state=open]:bg-[#22242d] data-[state=open]:text-white">
+                <i className="ri-volume-up-line text-[18px]"></i>
+              </button>
+            </AlertsModal>
+            <SnipeSettingsModal tooltip="Toggle Scope">
+              <button className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#22242d] transition-colors text-[#6b7280] hover:text-white data-[state=open]:bg-[#22242d] data-[state=open]:text-white">
+                <i className="ri-crosshair-2-line text-[18px]"></i>
+              </button>
+            </SnipeSettingsModal>
           </div>
+
+          {/* Wallet/Preset Selector */}
+          <WalletSelector>
+            <button className="h-[32px] px-3 rounded-full bg-[#22242d] border border-[#22242d] flex items-center gap-3 hover:bg-[#22242d] transition-colors group data-[state=open]:bg-[#2a2c36]">
+              <div className="flex items-center gap-2">
+                <i className="ri-wallet-3-line text-[18px] text-[#9CA3AF] group-hover:text-white transition-colors"></i>
+                <span className="text-[14px] font-medium text-white">1</span>
+              </div>
+              <div className="fill-current w-[14px]">
+                <svg
+                  viewBox="0 0 128 128"
+                  className="w-full text-[#4ade80]" // Assuming green for Solana/Active
+                >
+                  <path
+                    d="M87.417 40.573H28.452l14.86-25.688h58.966l-14.86 25.688Z"
+                    fill="currentcolor"
+                  ></path>
+                  <path
+                    d="M100.99 67.576H41.67L26.34 40.574h59.32l15.33 27.002Z"
+                    fill="currentcolor"
+                  ></path>
+                  <path
+                    d="M40.584 87.426h58.965l-14.86 25.688H25.723l14.86-25.688Z"
+                    fill="currentcolor"
+                  ></path>
+                </svg>
+              </div>
+              <span className="text-[14px] font-medium text-white">0</span>
+              <i className="ri-arrow-down-s-line text-[#6b7280] text-[18px] ml-1 group-hover:text-white transition-colors"></i>
+            </button>
+          </WalletSelector>
         </div>
       </div>
     </div>
