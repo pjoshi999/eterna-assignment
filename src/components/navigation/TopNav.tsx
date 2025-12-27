@@ -1,8 +1,3 @@
-/**
- * TopNav Component - Axiom Trade Top Navigation
- * WITH FUNCTIONAL MODALS AND DROPDOWNS
- */
-
 "use client";
 
 import { useState } from "react";
@@ -19,7 +14,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip"; // Added Tooltip imports
+} from "@/components/ui/tooltip";
 
 import { MobileSidebar } from "./MobileSidebar";
 import { BottomNav } from "./BottomNav";
@@ -36,15 +31,12 @@ export function TopNav() {
 
   return (
     <div className="flex flex-col w-full bg-[#0a0b0f]">
-      {/* Main Top Navigation */}
-      <nav className="w-full h-[64px] px-2 sm:px-3 border-b border-[#1A1B1F] flex items-center justify-between bg-[#0a0b0f] relative z-30">
-        {/* Left - Logo and Nav Items */}
+      <nav className="w-full h-[64px] px-2 sm:px-5 border-b border-[#1A1B1F] flex items-center justify-between bg-[#0a0b0f] relative z-30">
         <div className="flex items-center gap-4 flex-1 min-w-0">
-          {/* Logo */}
           <div className="flex items-center flex-shrink-0 min-w-[40px]">
             <svg
-              width="18"
-              height="18"
+              width="36"
+              height="36"
               viewBox="0 0 36 36"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -73,12 +65,11 @@ export function TopNav() {
             </svg>
           </div>
 
-          {/* Desktop Nav Items */}
           <div className="hidden lg:flex flex-1 items-center gap-1 overflow-x-auto no-scrollbar [mask-image:linear-gradient(to_right,black_calc(100%-80px),transparent)]">
             <button className="flex flex-row h-[32px] text-nowrap px-[8px] xl:px-[14px] text-[14px] justify-start items-center [transition:none] duration-0 hover:bg-[#526fff]/20 hover:text-[#526fff] hover:[transition:background-color_135ms_ease-in-out,color_135ms_ease-in-out] rounded-[4px] text-[#fcfcfc]">
               Discover
             </button>
-            <button className="flex flex-row h-[32px] text-nowrap px-[8px] xl:px-[14px] text-[14px] justify-start items-center [transition:none] duration-0 hover:bg-[#526fff]/20 hover:text-[#526fff] hover:[transition:background-color_135ms_ease-in-out,color_135ms_ease-in-out] rounded-[4px] text-[#fcfcfc]">
+            <button className="flex flex-row h-[32px] text-nowrap px-[8px] xl:px-[14px] text-[14px] justify-start items-center [transition:none] duration-0 hover:bg-[#526fff]/20 hover:text-[#526fff] hover:[transition:background-color_135ms_ease-in-out,color_135ms_ease-in-out] rounded-[4px] text-[#526fff]">
               Pulse
             </button>
             <button className="flex flex-row h-[32px] text-nowrap px-[8px] xl:px-[14px] text-[14px] justify-start items-center [transition:none] duration-0 hover:bg-[#526fff]/20 hover:text-[#526fff] hover:[transition:background-color_135ms_ease-in-out,color_135ms_ease-in-out] rounded-[4px] text-[#fcfcfc]">
@@ -102,9 +93,7 @@ export function TopNav() {
           </div>
         </div>
 
-        {/* Desktop Right - Search, SOL, Deposit, Wallet (Hidden on Mobile) */}
         <div className="hidden lg:flex items-center gap-3">
-          {/* Search Button */}
           <Tooltip>
             <TooltipTrigger asChild>
               <button
@@ -119,10 +108,9 @@ export function TopNav() {
             </TooltipContent>
           </Tooltip>
 
-          {/* SOL Network Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="h-[35px] px-3.5 rounded-full bg-[#15161A] border border-[#22242d] flex items-center gap-2 hover:bg-[#22242d] transition-colors group">
+              <button className="h-[35px] px-2.5 rounded-full border-2 border-[#0d1f1a] flex items-center gap-2 hover:bg-[#22242d] transition-colors group">
                 <Image
                   src="https://axiom.trade/images/sol-fill.svg"
                   alt="sol"
@@ -158,7 +146,6 @@ export function TopNav() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Deposit Button */}
           <Tooltip>
             <TooltipTrigger asChild>
               <button
@@ -173,10 +160,9 @@ export function TopNav() {
             </TooltipContent>
           </Tooltip>
 
-          {/* Star Button */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <button className="w-[40px] h-[35px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group">
+              <button className="w-[40px] h-[35px] flex items-center justify-center rounded-full bg-[#21242d] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group">
                 <i className="ri-star-line text-[18px]"></i>
               </button>
             </TooltipTrigger>
@@ -185,19 +171,15 @@ export function TopNav() {
             </TooltipContent>
           </Tooltip>
 
-          {/* Notification Popover */}
           <NotificationPopover />
 
-          {/* Wallet Popover */}
           <WalletPopover />
 
-          {/* Profile Dropdown */}
           <ProfileDropdown />
 
-          {/* Settings / User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="w-[40px] h-[35px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group">
+              <button className="w-[40px] h-[35px] flex items-center justify-center rounded-full bg-[#21242d] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group">
                 <i className="ri-user-3-line text-[18px] text-[#9CA3AF] group-hover:text-white transition-colors"></i>
               </button>
             </DropdownMenuTrigger>
@@ -229,10 +211,8 @@ export function TopNav() {
           </DropdownMenu>
         </div>
 
-        {/* Mobile Right Nav (Visible on Mobile) */}
         <div className="flex lg:hidden items-center gap-2">
-          {/* Mobile Wallet Pill */}
-          <button className="h-[32px] px-2.5 rounded-full bg-[#15161A] border border-[#22242d] flex items-center gap-2 hover:bg-[#22242d] transition-colors">
+          <button className="h-[32px] px-2.5 rounded-full bg-[#21242d] border border-[#22242d] flex items-center gap-2 hover:bg-[#22242d] transition-colors">
             <i className="ri-wallet-3-line text-[#9CA3AF] text-[14px]"></i>
             <span className="text-[12px] font-medium text-white">0</span>
             <div className="w-[1px] h-[10px] bg-[#22242d]"></div>
@@ -241,33 +221,29 @@ export function TopNav() {
             <i className="ri-arrow-down-s-line text-[#6B7280] text-[12px]"></i>
           </button>
 
-          {/* Paste CA Button */}
-          <button className="h-[32px] px-2.5 rounded-full bg-[#15161A] border border-[#22242d] flex items-center gap-2 hover:bg-[#22242d] hover:text-white transition-colors group">
+          <button className="h-[32px] px-2.5 rounded-full bg-[#21242d] border border-[#22242d] flex items-center gap-2 hover:bg-[#22242d] hover:text-white transition-colors group">
             <i className="ri-file-copy-line text-[#9CA3AF] text-[14px] group-hover:text-white"></i>
             <span className="text-[12px] font-medium text-[#9CA3AF] group-hover:text-white">
               Paste CA
             </span>
           </button>
 
-          {/* Mobile Search Button */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group"
+            className="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#21242d] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group"
           >
             <i className="ri-search-2-line text-[14px] text-[#9CA3AF] group-hover:text-white"></i>
           </button>
 
-          {/* Hamburger Menu */}
           <button
             onClick={() => setIsSidebarOpen(true)}
-            className="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group"
+            className="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#21242d] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group"
           >
             <i className="ri-menu-line text-[14px] text-[#9CA3AF] group-hover:text-white"></i>
           </button>
         </div>
       </nav>
 
-      {/* Sub-Navigation Bar (Hidden on Mobile) */}
       <div className="hidden lg:flex grayscale-[30%] hover:grayscale-0 transition-[filter] relative flex-row w-full h-[28px] gap-[8px] px-[16px] pb-[1px] overflow-hidden border-b border-[#22242d] sm:border-[#22242d]/50 ">
         <div className="flex items-center gap-2">
           <button className="min-w-[24px] min-h-[24px] flex items-center justify-center text-[#777a8c] hover:text-[#c8c9d1] hover:bg-[#22242d99] transition-colors duration-125 ease-in-out rounded-[4px]">
@@ -286,7 +262,6 @@ export function TopNav() {
         </div>
       </div>
 
-      {/* Modals */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}

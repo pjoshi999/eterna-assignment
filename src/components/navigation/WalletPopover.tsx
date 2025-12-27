@@ -16,7 +16,7 @@ export function WalletPopover() {
       <PopoverTrigger asChild>
         <button
           className={cn(
-            "h-[35px] pl-4 pr-3 rounded-full bg-[#15161A] border border-[#22242d] flex items-center gap-3 hover:bg-[#22242d] transition-colors group",
+            "h-[35px] pl-4 pr-3 rounded-full bg-[#21242d] border border-[#22242d] flex items-center gap-3 hover:bg-[#22242d] transition-colors group",
             isOpen && "bg-[#22242d]"
           )}
         >
@@ -35,10 +35,10 @@ export function WalletPopover() {
       <PopoverContent
         align="end"
         sideOffset={8}
-        className="w-[320px] bg-[#15161A] border border-[#22242d] p-4 text-white shadow-xl"
+        className="w-[240px] bg-[#15161A] border border-[#22242d] p-4 text-white shadow-xl"
       >
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-2">
           <span className="text-[#9CA3AF] text-xs">Total Value</span>
           <div className="flex items-center gap-3 text-[#9CA3AF]">
             <div className="flex items-center gap-1 cursor-pointer hover:text-white transition-colors">
@@ -53,10 +53,10 @@ export function WalletPopover() {
         </div>
 
         {/* Value */}
-        <div className="text-[32px] font-medium mb-6">$0</div>
+        <div className="text-sm font-medium mb-3">$0</div>
 
         {/* Input/Swap area */}
-        <div className="bg-[#0f1014] rounded-lg p-3 mb-4 border border-[#22242d] flex items-center justify-between">
+        <div className="rounded-lg px-3 py-1.5 mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <i className="ri-wallet-3-fill text-[#4A5568]"></i>
             <span className="font-mono text-white">0</span>

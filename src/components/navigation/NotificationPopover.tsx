@@ -16,7 +16,7 @@ export function NotificationPopover() {
       <PopoverTrigger asChild>
         <button
           className={cn(
-            "w-[40px] h-[35px] flex items-center justify-center rounded-full bg-[#15161A] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group",
+            "w-[40px] h-[35px] flex items-center justify-center rounded-full bg-[#21242d] border border-[#22242d] hover:bg-[#22242d] hover:text-white transition-colors group",
             isOpen && "bg-[#22242d] text-white"
           )}
         >
@@ -25,7 +25,7 @@ export function NotificationPopover() {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="w-[360px] p-0 bg-[#15161A] border border-[#22242d] text-white overflow-hidden shadow-xl"
+        className="w-[360px] p-0 bg-[#21242d] border border-[#22242d] text-white overflow-hidden shadow-xl"
         sideOffset={8}
       >
         {/* Header */}

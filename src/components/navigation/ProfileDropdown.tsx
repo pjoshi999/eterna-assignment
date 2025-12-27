@@ -20,7 +20,7 @@ export function ProfileDropdown() {
       <DropdownMenuContent
         align="end"
         sideOffset={8}
-        className="w-[200px] bg-[#15161A] border border-[#22242d] p-1.5"
+        className="w-[200px] bg-[#21242d] border border-[#22242d] p-1.5"
       >
         <DropdownMenuItem className="flex flex-col items-start gap-1 px-2 cursor-pointer hover:bg-[#22242d] focus:bg-[#22242d] rounded-md outline-none group">
           <div className="flex items-center gap-2 text-white/60 group-hover:text-white">

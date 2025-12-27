@@ -20,7 +20,6 @@ export function MobileSettingsAccordion({
   return (
     <div className="w-full bg-[#101114] border-b border-[#22242d] animate-in slide-in-from-top-2 duration-200">
       <div className="flex items-center gap-2 py-3 overflow-x-auto no-scrollbar">
-        {/* Display Button - Bottom Sheet Trigger */}
         <MobileDisplaySettings>
           <button className="h-[32px] px-3 flex items-center gap-2 rounded-full border border-[#22242d] bg-[#22242d] hover:bg-[#2a2c36] transition-colors flex-shrink-0">
             <i className="ri-list-check text-white text-[16px]"></i>
