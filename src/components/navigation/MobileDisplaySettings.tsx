@@ -14,7 +14,6 @@ export function MobileDisplaySettings({
     "layout" | "metrics" | "row" | "extras"
   >("layout");
 
-  // Mock state for layout toggles
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [noDecimals, setNoDecimals] = useState(true);
   const [showHiddenTokens, setShowHiddenTokens] = useState(false);
@@ -25,48 +24,52 @@ export function MobileDisplaySettings({
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      {/* Bottom Sheet Styling */}
-      <DialogContent className="fixed bottom-0 left-0 right-0 top-auto translate-y-0 translate-x-0 w-full max-w-none rounded-t-[16px] rounded-b-none border-t border-[#22242d] bg-[#101114] p-4 data-[state=open]:slide-in-from-bottom text-white gap-0">
-        {/* Header Section */}
+      <DialogContent className="fixed bottom-0 left-0 right-0 top-auto translate-y-0 translate-x-0 w-full max-w-none rounded-t-[16px] rounded-b-none border-t border-border-medium bg-card p-4 data-[state=open]:slide-in-from-bottom text-white gap-0">
         <div className="flex flex-col gap-4 mb-4">
-          {/* Metrics */}
           <div className="flex flex-col gap-2">
-            <span className="text-[12px] font-medium text-[#777a8c]">
+            <span className="text-[12px] font-medium text-tertiary">
               Metrics
             </span>
             <div className="flex gap-2">
-              <div className="flex-1 h-[40px] border border-[#1a1b1f] bg-[#15161a] rounded-[6px] flex flex-col items-center justify-center">
-                <span className="text-[10px] text-[#777a8c]">MC 77K</span>
-                <span className="text-[10px] text-[#777a8c]">Small</span>
+              <div className="flex-1 h-[40px] border border-border-light bg-surface rounded-[6px] flex flex-col items-center justify-center">
+                <span className="text-[10px] text-tertiary">MC 77K</span>
+                <span className="text-[10px] text-tertiary">Small</span>
               </div>
-              <div className="flex-1 h-[40px] border border-[#526fff] bg-[#526fff]/20 rounded-[6px] flex flex-col items-center justify-center">
+              <div className="flex-1 h-[40px] border border-accent-blue bg-accent-blue/20 rounded-[6px] flex flex-col items-center justify-center">
                 <span className="text-[10px] text-white">MC 77K</span>
                 <span className="text-[10px] text-white">Large</span>
               </div>
             </div>
           </div>
 
-          {/* Quick Buy */}
           <div className="flex flex-col gap-2">
-            <span className="text-[12px] font-medium text-[#777a8c]">
+            <span className="text-[12px] font-medium text-tertiary">
               Quick Buy
             </span>
             <div className="flex gap-2">
-              <button className="flex-1 bg-[#526fff]/20 border border-[#526fff] rounded-[6px] h-[48px] flex flex-col items-center justify-center">
-                <span className="text-[#526fff] text-[12px] font-bold">⚡</span>
+              <button className="flex-1 bg-accent-blue/20 border border-accent-blue rounded-[6px] h-[48px] flex flex-col items-center justify-center">
+                <span className="text-accent-blue text-[12px] font-bold">
+                  ⚡
+                </span>
                 <span className="text-white text-[10px]">Small</span>
               </button>
-              <button className="flex-1 bg-[#15161a] border border-[#1a1b1f] rounded-[6px] h-[48px] flex flex-col items-center justify-center">
-                <span className="text-[#526fff] text-[12px] font-bold">⚡</span>
-                <span className="text-[#777a8c] text-[10px]">Large</span>
+              <button className="flex-1 bg-surface border border-border-light rounded-[6px] h-[48px] flex flex-col items-center justify-center">
+                <span className="text-accent-blue text-[12px] font-bold">
+                  ⚡
+                </span>
+                <span className="text-tertiary text-[10px]">Large</span>
               </button>
-              <button className="flex-1 bg-[#15161a] border border-[#1a1b1f] rounded-[6px] h-[48px] flex flex-col items-center justify-center">
-                <span className="text-[#526fff] text-[12px] font-bold">⚡</span>
-                <span className="text-[#777a8c] text-[10px]">Mega</span>
+              <button className="flex-1 bg-surface border border-border-light rounded-[6px] h-[48px] flex flex-col items-center justify-center">
+                <span className="text-accent-blue text-[12px] font-bold">
+                  ⚡
+                </span>
+                <span className="text-tertiary text-[10px]">Mega</span>
               </button>
-              <button className="flex-1 bg-[#15161a] border border-[#1a1b1f] rounded-[6px] h-[48px] flex flex-col items-center justify-center">
-                <span className="text-[#526fff] text-[12px] font-bold">⚡</span>
-                <span className="text-[#777a8c] text-[10px]">Ultra</span>
+              <button className="flex-1 bg-surface border border-border-light rounded-[6px] h-[48px] flex flex-col items-center justify-center">
+                <span className="text-accent-blue text-[12px] font-bold">
+                  ⚡
+                </span>
+                <span className="text-tertiary text-[10px]">Ultra</span>
               </button>
             </div>
           </div>
@@ -77,16 +80,17 @@ export function MobileDisplaySettings({
           </div>
         </div>
 
-        {/* Tabs - Pill Style */}
-        <div className="flex items-center gap-4 border-b border-[#22242d] pb-2 mb-4 overflow-x-auto no-scrollbar">
+        <div className="flex items-center gap-4 border-b border-border-medium pb-2 mb-4 overflow-x-auto no-scrollbar">
           {["layout", "metrics", "row", "extras"].map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() =>
+                setActiveTab(tab as "layout" | "metrics" | "row" | "extras")
+              }
               className={`px-4 py-1.5 rounded-full text-[13px] font-medium capitalize transition-colors ${
                 activeTab === tab
                   ? "bg-[#2a2b30] text-white"
-                  : "bg-transparent text-[#777a8c] hover:text-white"
+                  : "bg-transparent text-tertiary hover:text-white"
               }`}
             >
               {tab}
@@ -94,7 +98,6 @@ export function MobileDisplaySettings({
           ))}
         </div>
 
-        {/* Layout Content */}
         {activeTab === "layout" && (
           <div className="flex flex-col gap-4 pb-6">
             {[
@@ -149,8 +152,8 @@ export function MobileDisplaySettings({
                 <div
                   className={`w-4 h-4 rounded-full border flex items-center justify-center ${
                     item.checked
-                      ? "bg-[#526fff] border-[#526fff]"
-                      : "border-[#777a8c] bg-transparent"
+                      ? "bg-accent-blue border-accent-blue"
+                      : "border-tertiary bg-transparent"
                   }`}
                 >
                   {item.checked && (

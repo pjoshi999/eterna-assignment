@@ -13,18 +13,41 @@ const config: Config = {
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+
+        // Semantic Tokens
+        main: "#0a0b0f",
+        card: "#101114",
+        surface: "#15161a",
+
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
+          DEFAULT: "#9ca3af", // gray-400 equivalent
           foreground: "hsl(var(--secondary-foreground))",
         },
         tertiary: {
-          DEFAULT: "#6b7280",
+          DEFAULT: "#777a8c",
           light: "#4b5563",
         },
+
+        // Borders
+        border: {
+          DEFAULT: "hsl(var(--border))",
+          light: "#1a1b1f",
+          medium: "#22242d",
+        },
+
+        // Accents
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+          blue: "#526fff",
+          cyan: "#52c5ff",
+          amber: "#F59E0B",
+        },
+
         success: {
           DEFAULT: "#53d38e",
           light: "#53d38e",
@@ -33,22 +56,20 @@ const config: Config = {
           DEFAULT: "#ef4444",
           light: "#ff4e4e",
         },
+
+        // UI States
+        hover: {
+          DEFAULT: "rgba(82, 111, 255, 0.05)",
+          dark: "#2a2c36",
+          alt: "rgba(255, 255, 255, 0.02)",
+        },
+
         twitter: "#5dbcff",
         primaryGreen: "#12af80",
-        border: "hsl(var(--border))",
-        hover: "rgba(82, 111, 255, 0.05)",
-        "hover-alt": "rgba(255, 255, 255, 0.02)",
+
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",

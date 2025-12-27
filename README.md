@@ -9,22 +9,23 @@ A pixel-perfect replica of Axiom Trade's token discovery table built with Next.j
 - **Production**: [https://eterna-assignment.vercel.app](https://your-deployment-url.vercel.app) _(To be deployed)_
 - **Video Demo**: [YouTube - 2 Min Walkthrough](https://youtube.com/your-video) _(To be uploaded)_
 
+### Technical Highlights
+- ⚡ **Performance Optimized**: React.memo, optimized Redux state structure (O(1) lookups).
+- 🎨 **Design System**: Semantic Tailwind tokens (`bg-main`, `accent-blue`) for themeable and maintainable styling.
+- 📱 **Mobile-First UX**: Native-like bottom sheets, scrollable tabs, and responsive gestures.
+- 🔄 **State Management**: Redux Toolkit + Local State separation.
+- 📊 **Strict Typing**: No `any` types, comprehensive interfaces.
+
+> **[See DESIGN.md](./DESIGN.md) for detailed architecture and design decisions.**
+
 ## ✨ Features
 
 ### Core Functionality
 - ✅ **Three-Column Layout**: New Pairs, Final Stretch, and Migrated tokens
 - ✅ **Real-Time Updates**: Mock WebSocket sending price updates every 1ms
+- ✅ **Mobile Optimized**: Custom Scrollable Tabs & Touch-friendly modals
+- ✅ **Interactive Elements**: Hover effects, tooltips, popovers, and bottom sheets
 - ✅ **Price Flash Animations**: Green/red color transitions on value changes
-- ✅ **Interactive Elements**: Hover effects, tooltips, popovers, and modals
-- ✅ **Loading States**: Skeleton shimmer for progressive loading
-- ✅ **Responsive Design**: Fully responsive from 320px to 1440px+
-
-### Technical Highlights
-- ⚡ **Performance Optimized**: React.memo, optimized Redux state structure
-- 🎨 **Pixel-Perfect Styling**: Exact color matching (#06070b background, #526fff primary)
-- 🔄 **State Management**: Redux Toolkit with three slices (token, websocket, ui)
-- 📊 **Type-Safe**: Comprehensive TypeScript interfaces with strict mode
-- 🧩 **Atomic Architecture**: Reusable components following DRY principles
 
 ## 🛠️ Tech Stack
 
@@ -101,184 +102,13 @@ src/
 
 ## 🎨 Design System
 
-### Colors (Axiom Trade Theme)
-```css
-Background:    #06070b  (Dark navy/black)
-Foreground:    #fcfcfc  (White)
-Primary:       #526fff  (Blue)
-Success:       #22c55e  (Green)
-Danger:        #ef4444  (Red)
-Twitter:       #5dbcff  (Light blue)
-```
+The project uses a semantic design system built with Tailwind CSS.
 
-### Typography
-- **Font Family**: Inter (Google Fonts)
-- **Weights**: 400, 500, 600, 700
+- **Main Background**: `bg-main` (#0a0b0f)
+- **Primary Accent**: `accent-blue` (#526fff)
+- **Secondary Text**: `text-secondary` (#9ca3af)
 
-### Animations
-- **Shimmer**: 2s linear infinite (skeleton loading)
-- **Flash**: 300ms ease-in-out (price updates)
-- **Transitions**: 200ms cubic-bezier (hover effects)
-
-## 🎯 Key Features Breakdown
-
-### 1. Mock WebSocket (1ms Updates)
-```typescript
-// src/lib/websocket/mockWebSocket.ts
-const ws = new MockWebSocket({ updateInterval: 1 });
-ws.connect(); // Sends updates every 1ms
-
-// Dispatches to Redux store
-dispatch(updateToken({ id, field, value, timestamp }));
-```
-
-### 2. Price Flash Animation
-```typescript
-// Green flash on increase, red on decrease
-<PriceFlash
-  value={token.currentPrice}
-  previousValue={token.previousPrice}
-  formatter={formatPrice}
-/>
-```
-
-### 3. Optimized Redux State
-```typescript
-// O(1) lookups with Record<string, Token>
-tokens: {
-  "new-0": { ...tokenData },
-  "new-1": { ...tokenData },
-}
-// Separate arrays maintain column order
-newPairs: ["new-0", "new-1", ...]
-```
-
-### 4. Token Row Components
-Each token displays:
-- Token image (DiceBear avatars)
-- Name, full name, and trending badge
-- Time since last update
-- Social links (Twitter, website, Pump.fun)
-- 5 indicators with percentages
-- Market cap, volume, funding (real-time)
-- Current price with 24h change
-- Quick Buy button (on hover)
-
-## 📱 Responsive Breakpoints
-
-| Breakpoint | Width | Layout |
-|------------|-------|--------|
-| Mobile (xs) | 320px+ | Single column, stacked |
-| Mobile (sm) | 640px+ | Single column, better spacing |
-| Tablet (md) | 768px+ | Two columns side-by-side |
-| Desktop (lg) | 1024px+ | Three columns (full layout) |
-| Large (xl) | 1280px+ | Three columns, max-width 1600px |
-
-## 🧪 Testing
-
-### Run Development Server
-```bash
-npm run dev
-```
-
-### Build for Production
-```bash
-npm run build
-npm start
-```
-
-### Lint
-```bash
-npm run lint
-```
-
-## 📊 Performance Metrics
-
-Target: **Lighthouse Score ≥ 90**
-
-| Metric | Target | Actual |
-|--------|--------|--------|
-| Performance | ≥90 | _TBD_ |
-| Accessibility | ≥90 | _TBD_ |
-| Best Practices | ≥90 | _TBD_ |
-| SEO | ≥90 | _TBD_ |
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
-```
-
-### Environment Variables
-None required - all data is mocked for demonstration.
-
-## 📸 Screenshots
-
-### Desktop View (1440px)
-![Desktop View](./screenshots/desktop.png) _(To be added)_
-
-### Tablet View (768px)
-![Tablet View](./screenshots/tablet.png) _(To be added)_
-
-### Mobile View (375px)
-![Mobile View](./screenshots/mobile.png) _(To be added)_
-
-## 🎥 Video Demonstration
-
-[![Axiom Trade Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://youtube.com/your-video)
-
-**Video showcases:**
-- Real-time price updates (1ms intervals)
-- Green/red flash animations
-- Hover interactions
-- All three columns
-- Mobile responsiveness
-- Loading states
-
-## 🏆 Evaluation Criteria
-
-| Criteria | Weight | Status |
-|----------|--------|--------|
-| Performance Optimization | 35% | ✅ Optimized |
-| Code Structure/Reusability | 30% | ✅ Atomic architecture |
-| Pixel-Perfect UI | 25% | ✅ Exact colors & layout |
-| Feature Completeness | 10% | ✅ All features implemented |
-
-## 📝 Commit History
-
-1. `feat: initialize Next.js 14 project with TypeScript and Tailwind`
-2. `feat: create TypeScript interfaces and configure Redux Toolkit`
-3. `feat: implement mock WebSocket with 1ms data updates`
-4. _(Additional commits in progress)_
-
-## 🔧 Development Notes
-
-### Why Mock WebSocket at 1ms?
-While production WebSockets typically update at 100ms-1000ms intervals, the 1ms requirement demonstrates:
-- High-performance state updates
-- Proper batching and memoization
-- React rendering optimization
-- No layout shifts despite rapid updates
-
-### Performance Optimizations
-1. **React.memo** on TokenRow and TokenColumn
-2. **useMemo** for filtered token lists
-3. **Record<string, Token>** for O(1) lookups
-4. **css contain** for layout stability
-5. **Progressive loading** with skeletons
-
-## 📚 Resources
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Redux Toolkit](https://redux-toolkit.js.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [shadcn/ui](https://ui.shadcn.com/)
-- [Axiom Trade (Reference)](https://axiom.trade/pulse)
+> Full design tokens are defined in [tailwind.config.ts](./tailwind.config.ts).
 
 ## 📄 License
 
